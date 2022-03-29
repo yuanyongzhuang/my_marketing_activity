@@ -40,8 +40,8 @@ public class AutoGenerateCode {
 
     public static void main(String[] args) {
         generateByTables("d:/data","yyz", "com.marketing.activity",
-                "voucher_info");
-//                "voucher_info","voucher_activity_info","voucher_activity_relation","user_coupon_info");
+//                "voucher_info");
+                "voucher_info","voucher_activity_info","voucher_activity_relation","user_coupon_info");
     }
 
     /**
@@ -70,7 +70,7 @@ public class AutoGenerateCode {
                         //开启kotlin模式，默认值：false
                         //.enableKotlin()
                         //开启swagger模式，默认值：false
-                        .enableSwagger()
+//                        .enableSwagger()
                         //加入构建队列
                         .build()
 
@@ -101,41 +101,41 @@ public class AutoGenerateCode {
                         .build()
                 )
                 //模板配置
-                .templateConfig( builder -> builder
-                        //禁用所有模板
-                        //.disable()
-                        // 设置实体模板路径(kotlin)，/templates/entity.java
-                        .entityKt("/templates/entity.java")
-                        //禁用模板 TemplateType.ENTITY
-                        .disable(TemplateType.ENTITY)
-                        //设置实体模板路径(JAVA)，/templates/entity.java
-                        .entity("/templates/entity.java")
-                        //设置 service 模板路径，/templates/service.java
-                        .service("/templates/service.java")
-                        //设置 serviceImpl 模板路径，/templates/serviceImpl.java
-                        .serviceImpl("/templates/serviceImpl.java")
-                        //设置 mapper 模板路径，/templates/mapper.java
-                        .mapper("/templates/mapper.java")
-                        //设置 mapperXml 模板路径，/templates/mapper.xml
-                        .mapperXml("/templates/mapper.xml")
-                        //设置 controller 模板路径，/templates/controller.java
-                        .controller("/templates/controller.java")
-                        //加入构建队列
-                        .build()
-                )
+//                .templateConfig( builder -> builder
+//                        //禁用所有模板
+//                        //.disable()
+//                        // 设置实体模板路径(kotlin)，/templates/entity.java
+//                        .entityKt("/templates/entity.java")
+//                        //禁用模板 TemplateType.ENTITY
+//                        .disable(TemplateType.ENTITY)
+//                        //设置实体模板路径(JAVA)，/templates/entity.java
+//                        .entity("/templates/entity.java")
+//                        //设置 service 模板路径，/templates/service.java
+//                        .service("/templates/service.java")
+//                        //设置 serviceImpl 模板路径，/templates/serviceImpl.java
+//                        .serviceImpl("/templates/serviceImpl.java")
+//                        //设置 mapper 模板路径，/templates/mapper.java
+//                        .mapper("/templates/mapper.java")
+//                        //设置 mapperXml 模板路径，/templates/mapper.xml
+//                        .mapperXml("/templates/mapper.xml")
+//                        //设置 controller 模板路径，/templates/controller.java
+//                        .controller("/templates/controller.java")
+//                        //加入构建队列
+//                        .build()
+//                )
                 //注入配置————自定义模板
-                .injectionConfig(builder -> builder
-                        //输出文件之前消费者
-                        .beforeOutputFile((tableInfo, objectMap) -> {
-                            System.out.println("tableInfo: " + tableInfo.getEntityName() + " objectMap: " + objectMap.size());
-                        })
-                        //自定义配置 Map 对象
-                        .customMap(Collections.singletonMap("my_field", "你好！这是我自己注入的属性哦"))
-                        //自定义配置模板文件
-                        //.customFile(Collections.singletonMap("test.txt", "/templates/test.vm"))
-                        //加入构建队列
-                        .build()
-                )
+//                .injectionConfig(builder -> builder
+//                        //输出文件之前消费者
+//                        .beforeOutputFile((tableInfo, objectMap) -> {
+//                            System.out.println("tableInfo: " + tableInfo.getEntityName() + " objectMap: " + objectMap.size());
+//                        })
+//                        //自定义配置 Map 对象
+//                        .customMap(Collections.singletonMap("my_field", "你好！这是我自己注入的属性哦"))
+//                        //自定义配置模板文件
+//                        //.customFile(Collections.singletonMap("test.txt", "/templates/test.vm"))
+//                        //加入构建队列
+//                        .build()
+//                )
                 // 策略配置
                 /**
                  * schema：在数据库中表示的是数据库对象集合，它包含了各种对像，比如：表，视图，存储过程，索引等等。
@@ -147,8 +147,8 @@ public class AutoGenerateCode {
                         /** 基本参数配置 */
                         .enableCapitalMode()//开启大写命名，默认值:false
                         .enableSkipView()//开启跳过视图，默认值:false
-                        .disableSqlFilter()//禁用 sql 过滤，默认值:true，语法不能支持使用 sql 过滤表的话，可以考虑关闭此开关
-                        .likeTable(new LikeTable("t_user_login"))//模糊表匹配(sql 过滤)	likeTable 与 notLikeTable 只能配置一项
+                        //.disableSqlFilter()//禁用 sql 过滤，默认值:true，语法不能支持使用 sql 过滤表的话，可以考虑关闭此开关
+                        //.likeTable(new LikeTable("t_user_login"))//模糊表匹配(sql 过滤)	likeTable 与 notLikeTable 只能配置一项
                         /** 设置需要生成的表名 */
                         .addInclude(tableNames)// 增加表匹配(内存过滤)，include 与 exclude 只能配置一项
                         /** 前缀配置*/
@@ -162,12 +162,12 @@ public class AutoGenerateCode {
                         .disableSerialVersionUID()//禁用生成 serialVersionUID，默认值:true
                         .enableLombok()//开启 lombok 模型，默认值:false
                         .enableChainModel()//开启链式模型，默认值:false
-                        .enableRemoveIsPrefix()//开启 Boolean 类型字段移除 is 前缀，默认值:false
                         .enableTableFieldAnnotation()//开启生成实体时生成字段注解，默认值:false
                         .enableActiveRecord()//开启 ActiveRecord 模型，默认值:false
                         .naming(NamingStrategy.underline_to_camel)//数据库表映射到实体的命名策略，默认下划线转驼峰命名:NamingStrategy.underline_to_camel
                         .columnNaming(NamingStrategy.underline_to_camel)//数据库表字段映射到实体属性的命名策略，默认为 null，未指定按照 naming 执行
                         .idType(IdType.AUTO)//全局主键类型
+                        //.enableRemoveIsPrefix()//开启 Boolean 类型字段移除 is 前缀，默认值:false
                         //.formatFileName("%sBean")//格式化文件名称，生成实体的后缀，建议这样使用，生成后：UserLoginBean
                         //.superClass(BaseEntity.class)//设置父类
                         //.enableColumnConstant()//开启生成字段常量，默认值:false
