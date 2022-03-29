@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marketing.activity.mapper.VoucherActivityInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherActivityInfo">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="dep_id" property="depId" />
+        <result column="activity_ype" property="activityYpe" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="expand_json" property="expandJson" />
+        <result column="operator" property="operator" />
+        <result column="enabled_status" property="enabledStatus" />
+        <result column="delete_status" property="deleteStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, dep_id, activity_ype, start_time, end_time, expand_json, operator, enabled_status, delete_status, create_time, update_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marketing.activity.mapper.VoucherInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherInfo">
+        <id column="id" property="id" />
+        <result column="outer_name" property="outerName" />
+        <result column="inner_code" property="innerCode" />
+        <result column="inner_name" property="innerName" />
+        <result column="stock" property="stock" />
+        <result column="each_limit" property="eachLimit" />
+        <result column="use_range_type" property="useRangeType" />
+        <result column="full_amounts" property="fullAmounts" />
+        <result column="discount_type" property="discountType" />
+        <result column="discount_amounts" property="discountAmounts" />
+        <result column="top_discount_amounts" property="topDiscountAmounts" />
+        <result column="use_time_type" property="useTimeType" />
+        <result column="use_time_start" property="useTimeStart" />
+        <result column="use_time_end" property="useTimeEnd" />
+        <result column="use_time_plus_day" property="useTimePlusDay" />
+        <result column="expand_json" property="expandJson" />
+        <result column="operator" property="operator" />
+        <result column="enabled_status" property="enabledStatus" />
+        <result column="delete_status" property="deleteStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, outer_name, inner_code, inner_name, stock, each_limit, use_range_type, full_amounts, discount_type, discount_amounts, top_discount_amounts, use_time_type, use_time_start, use_time_end, use_time_plus_day, expand_json, operator, enabled_status, delete_status, create_time, update_time
+    </sql>
+
+</mapper>

@@ -28,7 +28,7 @@ public class AutoGenerateCode {
      */
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
             .Builder("jdbc:mysql://localhost:3306/my_marketing_activity?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-            "root", "1234")
+            "root", "123456")
             //数据库查询
             .dbQuery(new MySqlQuery())
             //数据库schema(部分数据库适用)
@@ -66,7 +66,7 @@ public class AutoGenerateCode {
                         //注释日期，默认值：yyyy-MM-dd
                         .commentDate("yyyy-MM-dd")
                         //禁止打开输出目录，默认值：true
-                        //.disableOpenDir()
+                        .disableOpenDir()
                         //开启kotlin模式，默认值：false
                         //.enableKotlin()
                         //开启swagger模式，默认值：false
@@ -117,7 +117,6 @@ public class AutoGenerateCode {
                         .enableLombok()//开启 lombok 模型，默认值:false
                         .enableChainModel()//开启链式模型，默认值:false
                         .enableTableFieldAnnotation()//开启生成实体时生成字段注解，默认值:false
-                        .enableActiveRecord()//开启 ActiveRecord 模型，默认值:false
                         .naming(NamingStrategy.underline_to_camel)//数据库表映射到实体的命名策略，默认下划线转驼峰命名:NamingStrategy.underline_to_camel
                         .columnNaming(NamingStrategy.underline_to_camel)//数据库表字段映射到实体属性的命名策略，默认为 null，未指定按照 naming 执行
                         .idType(IdType.AUTO)//全局主键类型
