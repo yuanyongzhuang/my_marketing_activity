@@ -1,0 +1,36 @@
+spring:
+  main:
+    #解决bean被定义二次 true后面定义的bean覆盖之前的定义相同名称的bean
+    allow-bean-definition-overriding: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    #设置时区和JVM保持一致
+    time-zone: Asia/Shanghai
+
+# mybatis plus
+mybatis-plus:
+  global-config:
+    #是否控制台print mybatis-plus 的 LOGO
+    banner: false
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
+logging:
+  config: classpath:logback-spring.xml
+
+#knife4j增强，填写了knife4j:enable:true 即可不写@EnableKnife4j注解
+knife4j:
+  enable: true
+  #调试功能是否开启
+  setting:
+    enableDebug: false
+
+#feign超时设置
+feign:
+  client:
+    config:
+      #default全局 服务名指定服务
+      default:
+        #指的是建立连接后从服务器读取到可用资源所用的时间
+        ConnectTimeout: 30000
+        #指的是建立连接所有的时间，适用于网络状况正常的情况下，两端连接所有的时间
+        ReadTimeout: 30000

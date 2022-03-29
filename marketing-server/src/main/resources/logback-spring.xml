@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="log.path" value="/data/logs/marketing" />
+	<!-- 彩色日志格式 -->
+	<property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(----){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} [%X{traceId}] %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+	<!-- 彩色日志依赖的渲染类 -->
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+	<!-- Console log output -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- 处理 >= debug 的日志 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/info.log</file>
+		<!-- 处理 >= info 的日志 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/backup/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>1GB</maxFileSize>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<maxFileSize>50MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line %X{requestId} %X{uri} %X{urlParam} - %msg%n</pattern>
+		</encoder>
+		<!-- 只处理 error 日志 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<springProfile name="dev">
+		<root level="info">
+			<appender-ref ref="console" />
+			<appender-ref ref="file"/>
+			<appender-ref ref="error"/>
+		</root>
+<!--		<logger name="com.zhongye.opportunity.mapper" level="DEBUG"/>-->
+	</springProfile>
+	<springProfile name="test">
+		<root level="info">
+			<appender-ref ref="console" />
+			<appender-ref ref="file"/>
+			<appender-ref ref="error"/>
+		</root>
+<!--		<logger name="com.zhongye.opportunity.mapper" level="DEBUG"/>-->
+	</springProfile>
+	<springProfile name="prod">
+		<root level="info">
+			<appender-ref ref="console" />
+			<appender-ref ref="file"/>
+			<appender-ref ref="error"/>
+		</root>
+		<logger name="io.lettuce.core.protocol" level="error"/>
+	</springProfile>
+
+</configuration>

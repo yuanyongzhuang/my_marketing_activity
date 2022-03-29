@@ -1,0 +1,66 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: marketing-activity
+  profiles:
+    active: dev
+#  cloud:
+#    nacos:
+#      discovery:
+#        #心跳问题  时间单位：秒
+#        heart-beat-interval: 1
+#        heart-beat-timeout: 3
+#        ip-delete-timeout: 3
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        #不注入nacos只是一个消费者
+#        register-enabled: false
+        #配置命名空间，用于区分不同的环境，比如dev、local等，需要写 命名空间ID的值
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+      config:
+        server-addr: 127.0.0.1:8848
+        #命名空间id
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+        group: marketing-activity
+        file-extension: yaml
+---
+spring:
+  profiles: test
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        #不注入nacos只是一个消费者
+        #        register-enabled: false
+        #配置命名空间，用于区分不同的环境，比如dev、local等，需要写 命名空间ID的值
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+      config:
+        server-addr: 127.0.0.1:8848
+        #命名空间id
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+        group: marketing-activity
+        file-extension: yaml
+---
+spring:
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        #不注入nacos只是一个消费者
+        #        register-enabled: false
+        #配置命名空间，用于区分不同的环境，比如dev、local等，需要写 命名空间ID的值
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+      config:
+        server-addr: 127.0.0.1:8848
+        #命名空间id
+        namespace: a4b1a398-d530-4a4e-9adc-1b47e272cece
+        group: marketing-activity
+        file-extension: yaml

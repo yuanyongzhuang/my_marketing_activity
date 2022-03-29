@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.marketing.activity.log.GlobalLogAop,\
+  com.marketing.activity.config.FeignConfig,\
+  com.marketing.activity.config.WebConfig

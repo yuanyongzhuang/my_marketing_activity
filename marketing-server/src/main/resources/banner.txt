@@ -1,0 +1,16 @@
+${AnsiColor.CYAN}
+                \=/,         _-===-_-====-_-===-_-==========-_-====-_
+                |  @___oo   (                                         ) 
+      /\  /\   / (___,,,}_--=                                         ) 
+     ) /^\) ^\/ _)        =__                                          )
+     )   /^\/   _)          (_       Online success without bugs       )
+     )   _ /  / _)            (                                       ) 
+ /\  )/\/ ||  | )_)            (_                                     ) 
+<  >      |(,,) )__)             (                                   )  
+ ||      /    \)___)\             (_                                 )  
+ | \____(      )___) )___           -==-_____-=====-_____-=====-___==   
+  \______(_______;;; __;;;
+
+spring-boot: ${spring-boot.version}
+spring-boot: ${spring-boot.formatted-version}
+active: ${spring.profiles.active}
