@@ -79,8 +79,6 @@ public class AutoGenerateCode {
                 .packageConfig( builder -> builder
                         //父报名
                         .parent(packageName)
-                        //父包模块名
-                        //.moduleName("sys")
                         //entity包名
                         .entity("entity")
                         //service包名
@@ -96,17 +94,11 @@ public class AutoGenerateCode {
                         //自定义文件包名,	输出自定义文件时所用到的包名
                         //.other("other")
                         //路径配置信息，Collections.singletonMap(OutputFile.mapperXml, "D://")
-                        .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "d:/data/xml"))
+                        .pathInfo(Collections.singletonMap(OutputFile.mapperXml, outputDir+"/xml"))
                         //加入构建队列
                         .build()
                 )
                 // 策略配置
-                /**
-                 * schema：在数据库中表示的是数据库对象集合，它包含了各种对像，比如：表，视图，存储过程，索引等等。
-                 * 一般情况下一个用户对应一个集合，所以为了区分不同的集合就需要给不同的集合起名字。
-                 * 用户的schema名就相当于用户名，并作为该用户缺省schema。所以说schema集合看上去像用户名。
-                 * 例如当我们访问一个数据表时，如果该表没有指明属于哪个schema，系统就会自动的加上缺省的schema。
-                 */
                 .strategyConfig(builder -> builder
                         /** 基本参数配置 */
                         .enableCapitalMode()//开启大写命名，默认值:false
