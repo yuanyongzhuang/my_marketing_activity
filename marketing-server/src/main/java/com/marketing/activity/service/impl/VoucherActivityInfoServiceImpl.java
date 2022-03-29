@@ -1,6 +1,6 @@
 package com.marketing.activity.service.impl;
 
-import com.marketing.activity.entity.VoucherActivityInfo;
+import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.VoucherActivityInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

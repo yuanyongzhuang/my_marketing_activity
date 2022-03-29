@@ -1,6 +1,6 @@
 package com.marketing.activity.mapper;
 
-import com.marketing.activity.entity.VoucherActivityRelation;
+import com.marketing.activity.domain.entity.VoucherActivityRelation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

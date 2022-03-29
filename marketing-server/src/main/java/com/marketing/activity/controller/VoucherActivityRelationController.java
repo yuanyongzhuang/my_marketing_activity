@@ -1,9 +1,11 @@
 package com.marketing.activity.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * <p>
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yyz
  * @since 2022-03-29
  */
+@ApiIgnore
+@Api(tags = "券运营活动管理")
 @RestController
 @RequestMapping("/voucher-activity-relation")
 public class VoucherActivityRelationController {

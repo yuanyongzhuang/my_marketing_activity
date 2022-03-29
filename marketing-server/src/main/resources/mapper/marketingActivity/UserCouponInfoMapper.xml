@@ -3,7 +3,7 @@
 <mapper namespace="com.marketing.activity.mapper.UserCouponInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.UserCouponInfo">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.UserCouponInfo">
         <id column="id" property="id" />
         <result column="coupon_id" property="couponId" />
         <result column="coupon_code" property="couponCode" />

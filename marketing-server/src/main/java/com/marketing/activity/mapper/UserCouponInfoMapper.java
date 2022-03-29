@@ -1,6 +1,6 @@
 package com.marketing.activity.mapper;
 
-import com.marketing.activity.entity.UserCouponInfo;
+import com.marketing.activity.domain.entity.UserCouponInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

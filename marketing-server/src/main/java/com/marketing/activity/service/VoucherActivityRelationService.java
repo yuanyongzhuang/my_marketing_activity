@@ -1,6 +1,6 @@
 package com.marketing.activity.service;
 
-import com.marketing.activity.entity.VoucherActivityRelation;
+import com.marketing.activity.domain.entity.VoucherActivityRelation;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
