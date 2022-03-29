@@ -25,10 +25,3 @@ app:
         password: 1234
         maximum-pool-size: 10
         minimum-idle: 1
-      product:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/zhongye_product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: 1234
-        maximum-pool-size: 80
-        minimum-idle: 1

@@ -11,6 +11,7 @@
     <modules>
         <module>marketing-common</module>
         <module>marketing-server</module>
+        <module>marketing-generate</module>
     </modules>
 
     <properties>
@@ -26,6 +27,9 @@
 
         <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
         <pagehelper-spring-boot-starter.version>1.4.0</pagehelper-spring-boot-starter.version>
+        <mybatis-plus-generator.version>3.5.1</mybatis-plus-generator.version>
+        <velocity.version>2.3</velocity.version>
+        <freemarker.version>2.3.31</freemarker.version>
 
         <easypoi.version>4.1.2</easypoi.version>
         <easyexcel.version>2.2.10</easyexcel.version>
@@ -86,6 +90,23 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+            <!-- velocity，代码自动生成时调用 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+            <!-- freemarker模板引擎，代码自动生成时调用 -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
             </dependency>
             <!-- knife4j接口文档 -->
             <dependency>
