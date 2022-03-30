@@ -35,7 +35,7 @@ public class VoucherInfoController {
     @ApiOperation("添加")
     @PostMapping("/add")
     public CommonResult<VoucherSimpleInfoResp> add(@RequestBody VoucherInfoParam voucherInfoParam){
-        return voucherInfoParam.add(voucherInfoParam);
+        return voucherInfoService.add(voucherInfoParam);
     }
 
     @ApiOperation("更新")
