@@ -39,13 +39,33 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
 
         VoucherInfo voucherInfo = voucherHelper.convertToPo(voucherInfoParam);
 
+        this.save(voucherInfo);
 
+        //生成券码
+        String code = voucherHelper.generateCode(voucherInfo);
 
-        return null;
+        VoucherSimpleInfoResp simpleInfoResp = VoucherSimpleInfoResp.builder()
+                .voucherId(voucherInfo.getId())
+                .innerCode(code)
+                .innerName(voucherInfo.getInnerName())
+                .outerName(voucherInfo.getOuterName())
+                .build();
+
+        return CommonResult.success(simpleInfoResp);
     }
 
     @Override
     public CommonResult<Boolean> edit(Long id, VoucherInfoParam voucherInfoParam) {
-        return null;
+        Assert.notNull(voucherInfoParam, ErrorMsg.PARAM_IS_NULL);
+        Assert.notNull(id,ErrorMsg.ID_IS_ERROR);
+        String checkParamsResult = voucherInfoParam.checkParams();
+        Assert.isFalse(StringUtils.isNotBlank(checkParamsResult), checkParamsResult);
+
+        VoucherInfo voucherInfo = voucherHelper.convertToPo(voucherInfoParam);
+        voucherInfo.setId(id);
+
+        this.updateById(voucherInfo);
+
+        return CommonResult.success(Boolean.TRUE);
     }
 }
