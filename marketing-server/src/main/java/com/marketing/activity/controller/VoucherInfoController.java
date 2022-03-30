@@ -33,8 +33,8 @@ public class VoucherInfoController {
     }
 
     @ApiOperation("添加")
-    @PostMapping("/add")
-    public CommonResult<VoucherSimpleInfoResp> add(@RequestBody VoucherInfoParam voucherInfoParam){
+    @PostMapping("/add/{activityId}")
+    public CommonResult<VoucherSimpleInfoResp> add(@PathVariable("id") Long id, @RequestBody VoucherInfoParam voucherInfoParam){
         return voucherInfoService.add(voucherInfoParam);
     }
 
