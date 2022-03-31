@@ -1,7 +1,9 @@
 package com.marketing.activity.service;
 
+import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.marketing.activity.domain.param.VoucherActivityParam;
 
 /**
  * <p>
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface VoucherActivityInfoService extends IService<VoucherActivityInfo> {
 
+    CommonResult<Boolean> add(VoucherActivityParam voucherActivityParam);
+
+    CommonResult<Boolean> edit(Long id, VoucherActivityParam voucherActivityParam);
 }

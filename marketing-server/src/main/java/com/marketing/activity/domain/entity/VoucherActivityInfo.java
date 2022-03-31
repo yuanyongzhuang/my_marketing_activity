@@ -46,7 +46,7 @@ public class VoucherActivityInfo {
      * 活动类型 1 券包, 2 兑换码, 3 通用口令
      */
     @TableField("activity_ype")
-    private Integer activityYpe;
+    private Integer activityType;
 
     /**
      * 活动开始时间

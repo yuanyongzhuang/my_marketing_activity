@@ -24,7 +24,10 @@ import java.util.List;
 public class VoucherInfoParam implements Serializable {
 
     @ApiModelProperty("id")
-    private String id;
+    private Long id;
+
+    @ApiModelProperty("activityId")
+    private Long activityId;
 
     @ApiModelProperty(value = "券展示名称（用户侧）", required = true)
     private String outerName;
@@ -75,10 +78,10 @@ public class VoucherInfoParam implements Serializable {
     private List<Integer> useRangeContent;
 
     public String checkParams() {
-        // 类型
-//        if (this.voucherType == null) {
-//            return "券类型为空";
-//        }
+
+        if (this.activityId == null) {
+            return "活动id为空";
+        }
         if (this.discountType == null) {
             return "优惠方式为空";
         }
