@@ -46,7 +46,7 @@ public class VoucherActivityInfoController {
 
     @ApiOperation("活动列表")
     @PostMapping("/list")
-    public CommonResult<CommonPage<>>
+    public CommonResult<CommonPage<>>()
 
 
 }
