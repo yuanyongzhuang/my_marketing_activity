@@ -51,5 +51,6 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
         this.updateById(updateInfo);
 
         return CommonResult.success(Boolean.TRUE);
+
     }
 }
