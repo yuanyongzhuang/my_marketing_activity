@@ -18,4 +18,6 @@ public interface VoucherActivityInfoService extends IService<VoucherActivityInfo
     CommonResult<Boolean> add(VoucherActivityParam voucherActivityParam);
 
     CommonResult<Boolean> edit(Long id, VoucherActivityParam voucherActivityParam);
+
+    CommonResult<Boolean> state(Long id);
 }

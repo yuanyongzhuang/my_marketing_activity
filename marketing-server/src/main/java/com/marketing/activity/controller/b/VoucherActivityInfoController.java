@@ -1,10 +1,10 @@
-package com.marketing.activity.controller;
+package com.marketing.activity.controller.b;
 
 
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.service.VoucherActivityInfoService;
-import com.marketing.activity.service.VoucherActivityRelationService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +37,16 @@ public class VoucherActivityInfoController {
     public CommonResult<Boolean> edit(@PathVariable("id") Long id, VoucherActivityParam voucherActivityParam){
         return voucherActivityService.edit(id,voucherActivityParam);
     }
+
+    @ApiOperation("/停止使用")
+    @PostMapping("/state/{id}")
+    public CommonResult<Boolean> state(@PathVariable("id") Long id){
+        return voucherActivityService.state(id);
+    }
+
+    @ApiOperation("活动列表")
+    @PostMapping("/list")
+    public CommonResult<CommonPage<>>
+
 
 }

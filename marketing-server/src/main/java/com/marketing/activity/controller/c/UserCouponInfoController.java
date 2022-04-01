@@ -1,8 +1,7 @@
-package com.marketing.activity.controller;
+package com.marketing.activity.controller.c;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**

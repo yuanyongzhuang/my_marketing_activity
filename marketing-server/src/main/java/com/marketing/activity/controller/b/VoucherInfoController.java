@@ -1,6 +1,7 @@
-package com.marketing.activity.controller;
+package com.marketing.activity.controller.b;
 
 
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.param.VoucherInfoParam;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
@@ -44,4 +45,11 @@ public class VoucherInfoController {
 
         return voucherInfoService.edit(id, voucherInfoParam);
     }
+
+
+//    @ApiOperation("券列表")
+//    @PostMapping("/list")
+//    public CommonResult<CommonPage<>>
+
+
 }

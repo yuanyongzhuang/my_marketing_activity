@@ -1,4 +1,4 @@
-package com.marketing.activity.controller;
+package com.marketing.activity.controller.b;
 
 import cn.hutool.core.lang.Assert;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;

@@ -53,4 +53,16 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
         return CommonResult.success(Boolean.TRUE);
 
     }
+
+    @Override
+    public CommonResult<Boolean> state(Long id) {
+        Assert.notNull(id,ErrorMsg.ID_IS_NULL);
+
+        VoucherActivityInfo updateInfo = new VoucherActivityInfo();
+        updateInfo.setId(id);
+        updateInfo.setEnabledStatus(0);
+        this.updateById(updateInfo);
+
+        return CommonResult.success(Boolean.TRUE);
+    }
 }
