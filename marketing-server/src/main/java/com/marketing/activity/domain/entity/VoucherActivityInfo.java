@@ -41,6 +41,11 @@ public class VoucherActivityInfo {
      */
     @TableField("dep_id")
     private String depId;
+    /**
+     * 所属分类（栏目）
+     */
+    @TableField("column_id")
+    private Integer columnId;
 
     /**
      * 活动类型 1 券包, 2 兑换码, 3 通用口令

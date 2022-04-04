@@ -1,14 +1,20 @@
 package com.marketing.activity.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.domain.entity.VoucherActivityRelation;
 import com.marketing.activity.domain.entity.VoucherInfo;
+import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.domain.resp.VoucherInfoResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
@@ -20,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -102,5 +110,26 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
         this.updateById(voucherInfo);
 
         return CommonResult.success(Boolean.TRUE);
+    }
+
+    @Override
+    public CommonPage<VoucherInfoResp> getList(VoucherInfoPageParam pageParam) {
+
+        CommonPage<VoucherInfoResp> commonPage = new CommonPage<>();
+        List<VoucherInfoResp> respList = new ArrayList<>();
+
+        Page<VoucherInfo> page = new Page<>(pageParam.getCurrentPage(),pageParam.getPageSize());
+        List<VoucherInfo> list = voucherHelper.getList(pageParam);
+        if(CollectionUtil.isNotEmpty(list)){
+            respList = BeanUtil.copyToList(list, VoucherInfoResp.class);
+        }
+
+        commonPage.setList(respList);
+        commonPage.setPageNum((int)page.getCurrent());
+        commonPage.setPageSize((int)page.getSize());
+        commonPage.setTotalPage((int)page.getPages());
+        commonPage.setTotal(page.getTotal());
+
+        return commonPage;
     }
 }

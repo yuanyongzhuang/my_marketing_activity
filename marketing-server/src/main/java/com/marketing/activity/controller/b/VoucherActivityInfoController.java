@@ -3,7 +3,9 @@ package com.marketing.activity.controller.b;
 
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
+import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
 import com.marketing.activity.service.VoucherActivityInfoService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +48,9 @@ public class VoucherActivityInfoController {
 
     @ApiOperation("活动列表")
     @PostMapping("/list")
-    public CommonResult<CommonPage<>>(){
-
+    public CommonResult<CommonPage<VoucherActivityInfoResp>> getList(@RequestBody VoucherActivityPageParam pageParam){
+        CommonPage<VoucherActivityInfoResp> resultPage = voucherActivityService.getList(pageParam);
+        return CommonResult.success(resultPage);
     }
 
 

@@ -54,6 +54,11 @@ public class VoucherInfo {
      */
     @TableField("stock")
     private Integer stock;
+    /**
+     * 可领取数量（领取后要减数）
+     */
+    @TableField("total_num")
+    private Integer totalNum;
 
     /**
      * 领取次数[人] -1 不可领取, 0 不限制, 大于0 限制

@@ -9,6 +9,7 @@
         <result column="inner_code" property="innerCode" />
         <result column="inner_name" property="innerName" />
         <result column="stock" property="stock" />
+        <result column="total_num" property="totalNum" />
         <result column="each_limit" property="eachLimit" />
         <result column="use_range_type" property="useRangeType" />
         <result column="full_amounts" property="fullAmounts" />
@@ -29,7 +30,13 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, outer_name, inner_code, inner_name, stock, each_limit, use_range_type, full_amounts, discount_type, discount_amounts, top_discount_amounts, use_time_type, use_time_start, use_time_end, use_time_plus_day, expand_json, operator, enabled_status, delete_status, create_time, update_time
+        id, outer_name, inner_code, inner_name, stock, total_num, each_limit, use_range_type, full_amounts, discount_type, discount_amounts, top_discount_amounts, use_time_type, use_time_start, use_time_end, use_time_plus_day, expand_json, operator, enabled_status, delete_status, create_time, update_time
     </sql>
+    <select id="selectListByActivityId" resultType="com.marketing.activity.domain.entity.VoucherInfo">
+        select
+            v.*
+        from voucher_info v left join voucher_activity_relation r on v.id = r.voucher_id
+        where r.activity = #{pageParam.activityId}
+    </select>
 
 </mapper>

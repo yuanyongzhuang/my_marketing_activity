@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="dep_id" property="depId" />
+        <result column="column_id" property="columnId" />
         <result column="activity_type" property="activityType" />
         <result column="start_time" property="startTime" />
         <result column="end_time" property="endTime" />
@@ -20,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, dep_id, activity_type, start_time, end_time, expand_json, operator, enabled_status, delete_status, create_time, update_time
+        id, title, dep_id, column_id, activity_type, start_time, end_time, expand_json, operator, enabled_status, delete_status, create_time, update_time
     </sql>
 
 </mapper>

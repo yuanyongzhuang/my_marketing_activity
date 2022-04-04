@@ -1,15 +1,29 @@
 package com.marketing.activity.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
+import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
+import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
+import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.helper.VoucherActivityHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.VoucherActivityInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -64,5 +78,14 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
         this.updateById(updateInfo);
 
         return CommonResult.success(Boolean.TRUE);
+    }
+
+    @Override
+    public CommonPage<VoucherActivityInfoResp> getList(VoucherActivityPageParam pageParam) {
+        CommonPage<VoucherActivityInfoResp> commonPage = new CommonPage<>();
+        List<VoucherActivityInfoResp> respList = new ArrayList<>();
+
+
+        return commonPage;
     }
 }

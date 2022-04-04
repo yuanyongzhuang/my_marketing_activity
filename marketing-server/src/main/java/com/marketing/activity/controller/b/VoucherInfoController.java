@@ -3,7 +3,9 @@ package com.marketing.activity.controller.b;
 
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.domain.resp.VoucherInfoResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 import com.marketing.activity.service.VoucherInfoService;
 import io.swagger.annotations.Api;
@@ -47,9 +49,12 @@ public class VoucherInfoController {
     }
 
 
-//    @ApiOperation("券列表")
-//    @PostMapping("/list")
-//    public CommonResult<CommonPage<>>
+    @ApiOperation("券列表")
+    @PostMapping("/list")
+    public CommonResult<CommonPage<VoucherInfoResp>> getList(@RequestBody VoucherInfoPageParam pageParam){
+        CommonPage<VoucherInfoResp> commonPage = voucherInfoService.getList(pageParam);
+        return CommonResult.success(commonPage);
+    }
 
 
 }

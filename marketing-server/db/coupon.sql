@@ -8,6 +8,7 @@ create table voucher_info
     inner_code           varchar(32)    default ''                  not null comment '内部编码',
     inner_name           varchar(64)    default ''                  not null comment '内部名称',
     stock                int            default 0                   not null comment '库存（可领取总量）',
+    total_num            int            default 0                   not null comment '可领取数量（领取后要减数）',
     each_limit           int            default 0                   not null comment '领取次数[人] -1 不可领取, 0 不限制, 大于0 限制',
 
     use_range_type       tinyint        default 0                   not null comment '适用商品范围 0 全品类, 1 指定品类 2 指定商品',
@@ -40,6 +41,7 @@ create table voucher_activity_info
     id             bigint unsigned primary key auto_increment not null comment 'id',
     title          varchar(64)   default ''                   not null comment '活动名称',
     dep_id         varchar(1024) default ''                   not null comment '所属组织',
+    column_id      int           default 0                    not null comment '所属分类（栏目）',
     activity_ype   tinyint       default 0                    not null comment '活动类型 1 券包, 2 兑换码, 3 通用口令',
     start_time     datetime      default now()                not null comment '活动开始时间',
     end_time       datetime      default now()                not null comment '活动结束时间',
