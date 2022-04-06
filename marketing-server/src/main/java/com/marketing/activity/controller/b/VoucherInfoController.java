@@ -48,6 +48,12 @@ public class VoucherInfoController {
         return voucherInfoService.edit(id, voucherInfoParam);
     }
 
+    @ApiOperation("停止发放")
+    @PostMapping("/state/{id}")
+    public CommonResult<Boolean> state(@PathVariable("id") Long id){
+        return voucherInfoService.state(id);
+    }
+
 
     @ApiOperation("券列表")
     @PostMapping("/list")

@@ -24,4 +24,6 @@ public interface VoucherInfoService extends IService<VoucherInfo> {
     CommonResult<Boolean> edit(Long id, VoucherInfoParam voucherInfoParam);
 
     CommonPage<VoucherInfoResp> getList(VoucherInfoPageParam pageParam);
+
+    CommonResult<Boolean> state(Long id);
 }

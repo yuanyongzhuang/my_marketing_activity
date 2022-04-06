@@ -16,6 +16,7 @@ import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
+import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.mapper.VoucherActivityRelationMapper;
@@ -48,9 +49,6 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
 
     @Resource
     private VoucherActivityRelationMapper voucherActivityRelationMapper;
-
-    @Resource
-    private VoucherActivityInfoMapper voucherActivityInfoMapper;
 
     @Override
     public CommonResult<VoucherSimpleInfoResp> add(VoucherInfoParam voucherInfoParam) {
@@ -131,5 +129,18 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
         commonPage.setTotal(page.getTotal());
 
         return commonPage;
+    }
+
+    @Override
+    public CommonResult<Boolean> state(Long id) {
+        Assert.notNull(id,ErrorMsg.ID_IS_NULL);
+
+        VoucherInfo updateInfo = new VoucherInfo();
+        updateInfo.setId(id);
+        updateInfo.setEnabledStatus(EnabledStatusEnum.NO.getValue());
+
+        this.updateById(updateInfo);
+
+        return CommonResult.success(Boolean.TRUE);
     }
 }

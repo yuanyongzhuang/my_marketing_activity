@@ -74,7 +74,7 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
 
         VoucherActivityInfo updateInfo = new VoucherActivityInfo();
         updateInfo.setId(id);
-        updateInfo.setEnabledStatus(0);
+        updateInfo.setEnabledStatus(EnabledStatusEnum.NO.getValue());
         this.updateById(updateInfo);
 
         return CommonResult.success(Boolean.TRUE);
