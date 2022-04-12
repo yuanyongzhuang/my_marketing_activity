@@ -4,25 +4,24 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 优惠券表
+ * 用户优惠券
  * </p>
  *
  * @author yyz
- * @since 2022-03-29
+ * @since 2022-04-12
  */
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("user_coupon_info")
-public class UserCouponInfo {
+@TableName("voucher_user")
+public class VoucherUser {
 
     /**
      * id
@@ -33,14 +32,14 @@ public class UserCouponInfo {
     /**
      * 券id
      */
-    @TableField("coupon_id")
-    private Long couponId;
+    @TableField("voucher_id")
+    private Long voucherId;
 
     /**
      * 券码
      */
-    @TableField("coupon_code")
-    private String couponCode;
+    @TableField("voucher_code")
+    private String voucherCode;
 
     /**
      * 用户id
@@ -49,10 +48,16 @@ public class UserCouponInfo {
     private Long userId;
 
     /**
-     * 使用状态 0 未使用 1 已使用 2 已转赠 3 已过期
+     * 使用状态 0 未使用 1 已使用 2 已过期
      */
     @TableField("use_status")
     private Integer useStatus;
+
+    /**
+     * 过期时间
+     */
+    @TableField("expire_time")
+    private LocalDateTime expireTime;
 
     /**
      * 删除状态 1 是 0 否
@@ -64,13 +69,13 @@ public class UserCouponInfo {
      * 创建时间
      */
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 
 }

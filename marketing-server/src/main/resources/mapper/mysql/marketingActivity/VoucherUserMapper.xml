@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.marketing.activity.mapper.UserCouponInfoMapper">
+<mapper namespace="com.marketing.activity.mapper.VoucherUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.UserCouponInfo">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherUser">
         <id column="id" property="id" />
-        <result column="coupon_id" property="couponId" />
-        <result column="coupon_code" property="couponCode" />
+        <result column="voucher_id" property="voucherId" />
+        <result column="voucher_code" property="voucherCode" />
         <result column="user_id" property="userId" />
         <result column="use_status" property="useStatus" />
+        <result column="expire_time" property="expireTime" />
         <result column="delete_status" property="deleteStatus" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -16,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, coupon_id, coupon_code, user_id, use_status, delete_status, create_time, update_time
+        id, voucher_id, voucher_code, user_id, use_status, expire_time, delete_status, create_time, update_time
     </sql>
 
 </mapper>

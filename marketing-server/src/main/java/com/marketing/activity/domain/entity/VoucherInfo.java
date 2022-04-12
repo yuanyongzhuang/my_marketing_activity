@@ -5,8 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author yyz
- * @since 2022-03-29
+ * @since 2022-04-12
  */
 @Getter
 @Setter
@@ -32,10 +31,16 @@ public class VoucherInfo {
     private Long id;
 
     /**
+     * 活动id
+     */
+    @TableField("activity_id")
+    private Long activityId;
+
+    /**
      * 展示名称（用户侧）
      */
-    @TableField("outer_name")
-    private String outerName;
+    @TableField("show_name")
+    private String showName;
 
     /**
      * 内部编码
@@ -44,16 +49,11 @@ public class VoucherInfo {
     private String innerCode;
 
     /**
-     * 内部名称
-     */
-    @TableField("inner_name")
-    private String innerName;
-
-    /**
      * 库存（可领取总量）
      */
     @TableField("stock")
     private Integer stock;
+
     /**
      * 可领取数量（领取后要减数）
      */
@@ -67,7 +67,7 @@ public class VoucherInfo {
     private Integer eachLimit;
 
     /**
-     * 适用商品范围 0 全品类, 1 指定品类 2 指定商品
+     * 适用商品范围 0 全品类, 1 指定商品 2 指定品类
      */
     @TableField("use_range_type")
     private Integer useRangeType;
@@ -106,13 +106,13 @@ public class VoucherInfo {
      * 可用起始时间
      */
     @TableField("use_time_start")
-    private Date useTimeStart;
+    private LocalDateTime useTimeStart;
 
     /**
      * 可用截止时间
      */
     @TableField("use_time_end")
-    private Date useTimeEnd;
+    private LocalDateTime useTimeEnd;
 
     /**
      * 领取x天内可用
@@ -148,13 +148,13 @@ public class VoucherInfo {
      * 创建时间
      */
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 
 }

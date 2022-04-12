@@ -3,11 +3,11 @@
 <mapper namespace="com.marketing.activity.mapper.VoucherInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.VoucherInfo">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherInfo">
         <id column="id" property="id" />
-        <result column="outer_name" property="outerName" />
+        <result column="activity_id" property="activityId" />
+        <result column="show_name" property="showName" />
         <result column="inner_code" property="innerCode" />
-        <result column="inner_name" property="innerName" />
         <result column="stock" property="stock" />
         <result column="total_num" property="totalNum" />
         <result column="each_limit" property="eachLimit" />
@@ -30,13 +30,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, outer_name, inner_code, inner_name, stock, total_num, each_limit, use_range_type, full_amounts, discount_type, discount_amounts, top_discount_amounts, use_time_type, use_time_start, use_time_end, use_time_plus_day, expand_json, operator, enabled_status, delete_status, create_time, update_time
+        id, activity_id, show_name, inner_code, stock, total_num, each_limit, use_range_type, full_amounts, discount_type, discount_amounts, top_discount_amounts, use_time_type, use_time_start, use_time_end, use_time_plus_day, expand_json, operator, enabled_status, delete_status, create_time, update_time
     </sql>
-    <select id="selectListByActivityId" resultType="com.marketing.activity.domain.entity.VoucherInfo">
-        select
-            v.*
-        from voucher_info v left join voucher_activity_relation r on v.id = r.voucher_id
-        where r.activity = #{pageParam.activityId}
-    </select>
 
 </mapper>

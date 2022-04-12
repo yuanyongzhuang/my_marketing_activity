@@ -41,7 +41,7 @@ public class AutoGenerateCode {
     public static void main(String[] args) {
         generateByTables("d:/data","yyz", "com.marketing.activity",
 //                "voucher_info");
-                "voucher_info","voucher_activity_info","voucher_activity_relation","user_coupon_info");
+                "voucher_info","voucher_activity_info","voucher_user");
     }
 
     /**

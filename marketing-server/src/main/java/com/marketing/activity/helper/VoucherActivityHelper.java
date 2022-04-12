@@ -3,12 +3,9 @@ package com.marketing.activity.helper;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.enums.EnabledStatusEnum;
-import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
