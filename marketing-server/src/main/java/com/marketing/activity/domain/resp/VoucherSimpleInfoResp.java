@@ -31,11 +31,8 @@ public class VoucherSimpleInfoResp implements Serializable {
     @ApiModelProperty(value = "券码", required = true)
     private String innerCode;
 
-    @ApiModelProperty(value = "券内部名称（活动名称）", required = true)
-    private String innerName;
-
     @ApiModelProperty(value = "展示名称（用户侧）", required = true)
-    private String outerName;
+    private String showName;
 
     @ApiModelProperty(value = "活动ID", required = true)
     private String activityId;

@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -57,13 +58,13 @@ public class VoucherActivityInfo {
      * 活动开始时间
      */
     @TableField("start_time")
-    private LocalDateTime startTime;
+    private Date startTime;
 
     /**
      * 活动结束时间
      */
     @TableField("end_time")
-    private LocalDateTime endTime;
+    private Date endTime;
 
     /**
      * 扩展属性
@@ -93,13 +94,13 @@ public class VoucherActivityInfo {
      * 创建时间
      */
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

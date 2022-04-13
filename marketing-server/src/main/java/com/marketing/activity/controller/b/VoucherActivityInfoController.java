@@ -35,9 +35,15 @@ public class VoucherActivityInfoController {
     }
 
     @ApiOperation("更新")
-    @PostMapping("/edit/{id}")
-    public CommonResult<Boolean> edit(@PathVariable("id") Long id, VoucherActivityParam voucherActivityParam){
+    @PutMapping("/edit/{id}")
+    public CommonResult<Boolean> edit(@PathVariable("id") Long id, @RequestBody VoucherActivityParam voucherActivityParam){
         return voucherActivityService.edit(id,voucherActivityParam);
+    }
+
+    @ApiOperation("查看详情")
+    @GetMapping("/get/{id}")
+    public CommonResult<VoucherActivityInfoResp> get(@PathVariable("id") Long id){
+        return voucherActivityService.get(id);
     }
 
     @ApiOperation("/停止使用")

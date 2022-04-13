@@ -20,7 +20,7 @@ public class VoucherActivityPageParam extends BasePageQuery {
     private Integer enabledStatus;
 
     @ApiModelProperty(value = "事业部id")
-    private Integer depId;
+    private String depId;
 
     @ApiModelProperty(value = "栏目id")
     private Integer columnId;

@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -106,13 +107,13 @@ public class VoucherInfo {
      * 可用起始时间
      */
     @TableField("use_time_start")
-    private LocalDateTime useTimeStart;
+    private Date useTimeStart;
 
     /**
      * 可用截止时间
      */
     @TableField("use_time_end")
-    private LocalDateTime useTimeEnd;
+    private Date useTimeEnd;
 
     /**
      * 领取x天内可用
@@ -148,13 +149,13 @@ public class VoucherInfo {
      * 创建时间
      */
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

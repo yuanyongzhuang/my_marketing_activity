@@ -2,6 +2,7 @@ package com.marketing.activity.log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.annotation.NoLog;
 import com.marketing.activity.constant.RequestConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -52,8 +54,9 @@ public class GlobalLogAop {
     public Object aroundLog(ProceedingJoinPoint joinPoint) throws Throwable{
         //开始时间
 //        long startTime = System.currentTimeMillis();
-        StopWatch watch = new StopWatch();
-        watch.start();
+//        StopWatch watch = new StopWatch();
+//        watch.start();
+        BaseContextHandler.setAccessTime(new Date());
 
         MethodSignature ms = (MethodSignature) joinPoint.getSignature();
         Method method = ms.getMethod();
@@ -93,8 +96,9 @@ public class GlobalLogAop {
 
             //输出执行耗时。
 //            long timeCost = System.currentTimeMillis() - startTime;
-            watch.stop();
-            long timeCost = watch.getTotalTimeMillis();
+//            watch.stop();
+//            long timeCost = watch.getTotalTimeMillis();
+            long timeCost = System.currentTimeMillis() - BaseContextHandler.getAccessTime().getTime();
             logger.info("End -- [{}] speed:{}ms, return:{}",request.getRequestURI(),timeCost, JSON.toJSONString(proceed));
             if(timeCost > RequestConstants.TIME_COST){
                 logger.warn("CostTimeExtend  timeCost : {}ms, URI : {} , postBody:{} ", timeCost, request.getRequestURI(),postBody);

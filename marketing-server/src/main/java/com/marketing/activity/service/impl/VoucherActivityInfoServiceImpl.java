@@ -1,14 +1,20 @@
 package com.marketing.activity.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
+import com.marketing.activity.domain.entity.VoucherActivityInfo;
+import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.helper.VoucherActivityHelper;
+import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.VoucherActivityInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -74,9 +80,28 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
     @Override
     public CommonPage<VoucherActivityInfoResp> getList(VoucherActivityPageParam pageParam) {
         CommonPage<VoucherActivityInfoResp> commonPage = new CommonPage<>();
+        Page<VoucherInfo> page = new Page<>(pageParam.getCurrentPage(),pageParam.getPageSize());
         List<VoucherActivityInfoResp> respList = new ArrayList<>();
-
+        List<VoucherActivityInfo> list = voucherActivityHelper.getPageList(pageParam);
+        if(CollectionUtil.isNotEmpty(list)){
+            respList = BeanUtil.copyToList(list, VoucherActivityInfoResp.class);
+        }
+        commonPage.setList(respList);
+        commonPage.setPageNum((int)page.getCurrent());
+        commonPage.setPageSize((int)page.getSize());
+        commonPage.setTotalPage((int)page.getPages());
+        commonPage.setTotal(page.getTotal());
 
         return commonPage;
     }
+
+    @Override
+    public CommonResult<VoucherActivityInfoResp> get(Long id) {
+        VoucherActivityInfo info = this.getById(id);
+        Assert.notNull(info,ErrorMsg.DOES_NOT_EXIST);
+        VoucherActivityInfoResp resp = new VoucherActivityInfoResp();
+        BeanUtil.copyProperties(info,resp,false);
+        return CommonResult.success(resp);
+    }
+
 }
