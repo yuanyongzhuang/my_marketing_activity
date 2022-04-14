@@ -21,7 +21,6 @@ public class ErrorMsg {
     public final static String PARAM_IS_ERROR = "参数错误";
     public final static String ID_IS_ERROR = "传入id不正确";
 
-
     public final static String MOBILE_IS_NULL = "手机号不能为空";
     public final static String EXAM_ID_IS_ERROR = "项目参数错误";
     public final static String PARAM_IS_NULL = "传入参数不能为空";
@@ -40,14 +39,9 @@ public class ErrorMsg {
     public final static String FILES_IS_NULL = "上传文件不能为空";
     public final static String RESULT_IS_NULL = "查无结果";
 
-
     public final static String USER_IS_NOT_EXIST = "用户不存在";
     public final static String DOES_NOT_EXIST = "数据不存在或已删除";
     public final static String NAME_IS_EXIST = "名称（标题）已经存在";
 
-
     public final static String PLEASE_REFRESH_THE_PAGE_PROCEEDING = "请刷新页面再操作";
-
-
-
 }
