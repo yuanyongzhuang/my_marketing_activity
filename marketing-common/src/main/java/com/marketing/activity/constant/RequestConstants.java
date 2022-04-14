@@ -42,6 +42,14 @@ public interface RequestConstants {
      */
     String KEY_TRACE_ID = "traceId";
 
+    /**
+     * 访问时间.
+     */
+    String KEY_ACCESS_TIME = "accessTime";
+
+    /**
+     * 超时时长
+     */
     Long TIME_COST = 1500L;
 
 }

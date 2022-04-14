@@ -2,8 +2,8 @@ package com.marketing.activity.service;
 
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
-import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
@@ -25,4 +25,6 @@ public interface VoucherActivityInfoService extends IService<VoucherActivityInfo
     CommonResult<Boolean> state(Long id);
 
     CommonPage<VoucherActivityInfoResp> getList(VoucherActivityPageParam pageParam);
+
+    CommonResult<VoucherActivityInfoResp> get(Long id);
 }

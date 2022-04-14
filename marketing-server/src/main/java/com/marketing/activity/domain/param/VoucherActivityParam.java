@@ -45,6 +45,9 @@ public class VoucherActivityParam {
     @ApiModelProperty(value = "操作人", required = true)
     private String operator;
 
+    @ApiModelProperty("所属分类（栏目）")
+    private Integer columnId;
+
     public String checkParams() {
 
         if (this.title == null) {

@@ -3,7 +3,8 @@ package com.marketing.activity.helper;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
@@ -37,8 +38,9 @@ public class VoucherActivityHelper {
         String depIds = param.getDepId().stream().map(String::valueOf).collect(Collectors.joining(","));
         activityInfo.setDepId(depIds);
         activityInfo.setActivityType(param.getActivityType());
-        activityInfo.setStartTime(param.getStartTime());
-        activityInfo.setEndTime(DateUtil.parseDateTime(param.getEndTime()+ " 23:59:59"));
+        activityInfo.setColumnId(param.getColumnId());
+        activityInfo.setStartTime(BaseContextHandler.getAccessTime());
+        activityInfo.setEndTime(param.getEndTime());
         activityInfo.setOperator(param.getOperator());
         activityInfo.setEnabledStatus(1);
 
@@ -49,16 +51,12 @@ public class VoucherActivityHelper {
         return activityInfo;
     }
 
-    public List<VoucherActivityInfo> getList(VoucherActivityPageParam pageParam){
+    public List<VoucherActivityInfo> getPageList(VoucherActivityPageParam pageParam){
 
-        LambdaQueryWrapper<VoucherActivityInfo> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<VoucherActivityInfo> queryWrapper = Wrappers.lambdaQuery(VoucherActivityInfo.class);
         queryWrapper.eq(VoucherActivityInfo::getDeleteStatus, EnabledStatusEnum.YES.getValue());
-        if(StringUtils.isNotBlank(pageParam.getTitle())){
-            queryWrapper.like(VoucherActivityInfo::getTitle,pageParam.getTitle());
-        }
-        if(pageParam.getDepId() != null){
-            queryWrapper.apply("FIND_IN_SET('"+pageParam.getDepId()+",dep_id");
-        }
+        queryWrapper.like(StringUtils.isNotBlank(pageParam.getTitle()),VoucherActivityInfo::getTitle,pageParam.getTitle());
+        queryWrapper.apply(StringUtils.isNotBlank(pageParam.getDepId()),"FIND_IN_SET('"+pageParam.getDepId()+",dep_id");
         Integer enabledStatus = pageParam.getEnabledStatus();
         if(enabledStatus != null){
             String formatDateTime = DateUtil.formatDateTime(new Date());

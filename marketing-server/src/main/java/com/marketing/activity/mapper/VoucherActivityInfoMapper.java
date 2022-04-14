@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author yyz
- * @since 2022-03-29
+ * @since 2022-04-12
  */
 @Mapper
 public interface VoucherActivityInfoMapper extends BaseMapper<VoucherActivityInfo> {

@@ -3,10 +3,13 @@ package com.marketing.activity.helper;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.constant.VoucherConstant;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.mapper.VoucherInfoMapper;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +32,14 @@ public class VoucherHelper {
         VoucherInfo resultInfo = new VoucherInfo();
 
         //基础属性
-        resultInfo.setOuterName(paramInfo.getOuterName());
-        resultInfo.setInnerName(paramInfo.getInnerName());
+        resultInfo.setShowName(paramInfo.getShowName());
         resultInfo.setStock(paramInfo.getStock());
+        resultInfo.setTotalNum(paramInfo.getStock());
         resultInfo.setEachLimit(paramInfo.getEachLimit());
 
         //适用商品
         Integer useRangeType = paramInfo.getUseRangeType();
+        resultInfo.setUseRangeType(useRangeType);
         if(useRangeType > 0){
             List<Integer> useRangeContent = paramInfo.getUseRangeContent();
             JSONObject jsonObject = new JSONObject();
@@ -51,14 +55,15 @@ public class VoucherHelper {
 
         //可用时段
         Integer useTimeType = paramInfo.getUseTimeType();
-        resultInfo.setUseTimeType(paramInfo.getUseTimeType());
+        resultInfo.setUseTimeType(useTimeType);
         if(useRangeType == 0){
-            resultInfo.setUseTimeStart(new Date());
+            resultInfo.setUseTimeStart(BaseContextHandler.getAccessTime());
         }
         resultInfo.setUseTimeEnd(paramInfo.getUseTimeEnd());
         resultInfo.setUseTimePlusDay(paramInfo.getUseTimePlusDay());
 
         resultInfo.setOperator(paramInfo.getOperator());
+
         return resultInfo;
     }
 
@@ -127,7 +132,9 @@ public class VoucherHelper {
     }
 
     public List<VoucherInfo> getList(VoucherInfoPageParam pageParam) {
-        List<VoucherInfo> list = voucherInfoMapper.selectListByActivityId(pageParam);
+        List<VoucherInfo> list = voucherInfoMapper.selectList(new LambdaQueryWrapper<VoucherInfo>()
+                .eq(VoucherInfo::getActivityId,pageParam.getActivityId())
+                .eq(VoucherInfo::getDeleteStatus, EnabledStatusEnum.NO.getValue()));
         return list;
     }
 }

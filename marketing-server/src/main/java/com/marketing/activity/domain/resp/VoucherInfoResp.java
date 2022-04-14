@@ -26,14 +26,14 @@ public class VoucherInfoResp {
     @ApiModelProperty(value = "券ID", required = true)
     private Long id;
 
+    @ApiModelProperty(value = "活动id", required = true)
+    private Long activityId;
+
     @ApiModelProperty(value = "展示名称（用户侧）", required = true)
-    private String outerName;
+    private String showName;
 
     @ApiModelProperty(value = "内部编码", required = true)
     private String innerCode;
-
-    @ApiModelProperty(value = "内部名称", required = true)
-    private String innerName;
 
     @ApiModelProperty(value = "库存（可领取总量）", required = true)
     private Integer stock;
@@ -88,4 +88,5 @@ public class VoucherInfoResp {
 
     @ApiModelProperty(value = "更新时间", required = true)
     private Date updateTime;
+
 }

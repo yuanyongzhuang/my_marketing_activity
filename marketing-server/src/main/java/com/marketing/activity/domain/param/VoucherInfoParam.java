@@ -30,13 +30,11 @@ public class VoucherInfoParam implements Serializable {
     private Long activityId;
 
     @ApiModelProperty(value = "券展示名称（用户侧）", required = true)
-    private String outerName;
+    private String showName;
 
 //    @ApiModelProperty(value = "券码", required = true)
 //    private String innerCode;
 
-    @ApiModelProperty(value = "内部名称", required = true)
-    private String innerName;
 
     @ApiModelProperty(value = "库存（可领取总量）", required = true)
     private Integer stock;
@@ -96,15 +94,12 @@ public class VoucherInfoParam implements Serializable {
         }
 
         // 基础属性
-        if (StringUtils.isBlank(this.outerName)) {
+        if (StringUtils.isBlank(this.showName)) {
             return "券展示名称（用户侧）为空";
         }
 //        if (StringUtils.isBlank(this.innerCode)) {
 //            return "券码为空";
 //        }
-        if (StringUtils.isBlank(this.innerName)) {
-            return "内部名称为空";
-        }
         if (this.stock == null) {
             return "领取总量为空";
         }

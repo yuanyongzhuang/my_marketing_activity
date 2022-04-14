@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import java.util.Date;
  * </p>
  *
  * @author yyz
- * @since 2022-03-29
+ * @since 2022-04-12
  */
 @Getter
 @Setter
@@ -41,6 +41,7 @@ public class VoucherActivityInfo {
      */
     @TableField("dep_id")
     private String depId;
+
     /**
      * 所属分类（栏目）
      */
@@ -50,7 +51,7 @@ public class VoucherActivityInfo {
     /**
      * 活动类型 1 券包, 2 兑换码, 3 通用口令
      */
-    @TableField("activity_ype")
+    @TableField("activity_type")
     private Integer activityType;
 
     /**
@@ -66,7 +67,7 @@ public class VoucherActivityInfo {
     private Date endTime;
 
     /**
-     * 扩展属性：x天可用、封顶金额、指定品类/商品
+     * 扩展属性
      */
     @TableField("expand_json")
     private String expandJson;
