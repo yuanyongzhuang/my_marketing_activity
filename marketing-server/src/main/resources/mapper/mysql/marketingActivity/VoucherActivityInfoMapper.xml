@@ -3,7 +3,7 @@
 <mapper namespace="com.marketing.activity.mapper.VoucherActivityInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherActivityInfo">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.VoucherActivityInfo">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="dep_id" property="depId" />
@@ -23,5 +23,16 @@
     <sql id="Base_Column_List">
         id, title, dep_id, column_id, activity_type, start_time, end_time, expand_json, operator, enabled_status, delete_status, create_time, update_time
     </sql>
+    <select id="queryDistinctColumn" resultType="java.lang.Integer">
+        select distinct vai.column_id from
+        voucher_activity_info vai left join voucher_info vi on vai.id = vi.activity_id
+        where vai.delete_status = 0
+        and vai.enabled_status = 1
+        and vai.column_id > 0
+        and vai.start_time <![CDATA[<=]]]> NOW()
+        and vi.delete_status = 0
+        and vi.enabled_status = 1
+        and vi.total_num > 0
+    </select>
 
 </mapper>

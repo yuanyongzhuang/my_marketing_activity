@@ -75,7 +75,6 @@ public class VoucherActivityHelper {
         }
         //更新时间倒序
         queryWrapper.orderByDesc(VoucherActivityInfo::getUpdateTime);
-        List<VoucherActivityInfo> resultList = voucherActivityInfoMapper.selectList(queryWrapper);
-        return resultList;
+        return voucherActivityInfoMapper.selectList(queryWrapper);
     }
 }

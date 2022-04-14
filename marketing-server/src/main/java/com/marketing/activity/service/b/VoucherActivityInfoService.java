@@ -1,4 +1,4 @@
-package com.marketing.activity.service;
+package com.marketing.activity.service.b;
 
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
@@ -18,13 +18,39 @@ import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
  */
 public interface VoucherActivityInfoService extends IService<VoucherActivityInfo> {
 
+    /**
+     * 新增
+     * @param voucherActivityParam 参数
+     * @return obj
+     */
     CommonResult<Boolean> add(VoucherActivityParam voucherActivityParam);
 
+    /**
+     * 更新
+     * @param id id
+     * @param voucherActivityParam 参数
+     * @return obj
+     */
     CommonResult<Boolean> edit(Long id, VoucherActivityParam voucherActivityParam);
 
+    /**
+     * 停止使用
+     * @param id id
+     * @return Boolean
+     */
     CommonResult<Boolean> state(Long id);
 
+    /**
+     * 查询列表
+     * @param pageParam 参数
+     * @return obj
+     */
     CommonPage<VoucherActivityInfoResp> getList(VoucherActivityPageParam pageParam);
 
+    /**
+     * 详情
+     * @param id id
+     * @return obj
+     */
     CommonResult<VoucherActivityInfoResp> get(Long id);
 }

@@ -7,12 +7,10 @@ import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
-import com.marketing.activity.service.VoucherInfoService;
+import com.marketing.activity.service.b.VoucherInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * <p>
@@ -24,9 +22,9 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 
 //@ApiIgnore 使用在类 方法 参数上  屏蔽不在页面上展示
-@Api(tags = "券管理")
+@Api(tags = "B端-券管理")
 @RestController
-@RequestMapping("/voucher-info")
+@RequestMapping("/b/voucher-info")
 public class VoucherInfoController {
 
     private final VoucherInfoService voucherInfoService;

@@ -6,7 +6,8 @@ import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
-import com.marketing.activity.service.VoucherActivityInfoService;
+import com.marketing.activity.service.b.VoucherActivityInfoService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
  * @author yyz
  * @since 2022-03-29
  */
+//@ApiIgnore隐藏api
+@Api(tags = "B端-券活动")
 @RestController
-@RequestMapping("/voucher-activity-info")
+@RequestMapping("/b/voucher-activity-info")
 public class VoucherActivityInfoController {
 
     private final VoucherActivityInfoService voucherActivityService;
