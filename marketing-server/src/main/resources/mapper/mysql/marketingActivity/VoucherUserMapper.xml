@@ -3,12 +3,13 @@
 <mapper namespace="com.marketing.activity.mapper.VoucherUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherUser">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.VoucherUser">
         <id column="id" property="id" />
         <result column="voucher_id" property="voucherId" />
         <result column="voucher_code" property="voucherCode" />
         <result column="user_id" property="userId" />
         <result column="use_status" property="useStatus" />
+        <result column="use_time" property="useTime" />
         <result column="expire_time" property="expireTime" />
         <result column="delete_status" property="deleteStatus" />
         <result column="create_time" property="createTime" />
@@ -17,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, voucher_id, voucher_code, user_id, use_status, expire_time, delete_status, create_time, update_time
+        id, voucher_id, voucher_code, user_id, use_status, use_time, expire_time, delete_status, create_time, update_time
     </sql>
 
 </mapper>

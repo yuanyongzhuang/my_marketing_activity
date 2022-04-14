@@ -76,6 +76,7 @@ create table voucher_user
     voucher_code  varchar(32) default ''                     not null comment '券码',
     user_id       bigint      default 0                      not null comment '用户id',
     use_status    tinyint     default 0                      not null comment '使用状态 0 未使用 1 已使用 2 已过期',
+    use_time      datetime    default null                   not null comment '使用时间',
     expire_time   datetime    default now()                  not null comment '过期时间',
 
     delete_status tinyint     default 0                      not null comment '删除状态 1 是 0 否',

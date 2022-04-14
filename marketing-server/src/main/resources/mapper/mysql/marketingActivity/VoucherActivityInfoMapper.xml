@@ -3,7 +3,7 @@
 <mapper namespace="com.marketing.activity.mapper.VoucherActivityInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.marketing.activity.entity.VoucherActivityInfo">
+    <resultMap id="BaseResultMap" type="com.marketing.activity.domain.entity.VoucherActivityInfo">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="dep_id" property="depId" />

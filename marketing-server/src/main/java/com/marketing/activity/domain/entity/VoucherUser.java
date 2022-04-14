@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -54,10 +56,15 @@ public class VoucherUser {
     private Integer useStatus;
 
     /**
+     * 使用时间
+     */
+    @TableField("use_time")
+    private Date useTime;
+    /**
      * 过期时间
      */
     @TableField("expire_time")
-    private LocalDateTime expireTime;
+    private Date expireTime;
 
     /**
      * 删除状态 1 是 0 否
@@ -69,13 +76,13 @@ public class VoucherUser {
      * 创建时间
      */
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }
