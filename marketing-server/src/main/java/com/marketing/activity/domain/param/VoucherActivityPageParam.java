@@ -4,6 +4,9 @@ import com.marketing.activity.base.BasePageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 活动列表查询参数
@@ -11,7 +14,8 @@ import lombok.Data;
  */
 @Data
 @ApiModel("活动列表查询参数")
-public class VoucherActivityPageParam extends BasePageQuery {
+@EqualsAndHashCode(callSuper = true)
+public class VoucherActivityPageParam extends BasePageQuery implements Serializable {
 
     @ApiModelProperty(value = "活动名称")
     private String title;

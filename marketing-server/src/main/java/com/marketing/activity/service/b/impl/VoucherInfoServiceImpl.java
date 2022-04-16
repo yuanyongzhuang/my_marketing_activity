@@ -13,6 +13,7 @@ import com.marketing.activity.domain.param.VoucherInfoParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
+import com.marketing.activity.handler.VoucherHandler;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherInfoMapper;
 import com.marketing.activity.service.b.VoucherInfoService;
@@ -20,6 +21,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +36,10 @@ import java.util.List;
 @Service
 public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, VoucherInfo> implements VoucherInfoService {
 
-    private final VoucherHelper voucherHelper;
-
-    public VoucherInfoServiceImpl(VoucherHelper voucherHelper){
-        this.voucherHelper = voucherHelper;
-    }
+    @Resource
+    private VoucherHelper voucherHelper;
+    @Resource
+    private VoucherHandler voucherHandler;
 
 
     @Override
@@ -48,7 +49,7 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
         String checkParamsResult = voucherInfoParam.checkParams();
         Assert.isNull(checkParamsResult, checkParamsResult);
 
-        VoucherInfo voucherInfo = voucherHelper.convertToPo(voucherInfoParam);
+        VoucherInfo voucherInfo = voucherHandler.convertToPo(voucherInfoParam);
 
         this.save(voucherInfo);
 
@@ -75,7 +76,7 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
         Assert.isFalse(StringUtils.isNotBlank(checkParamsResult), checkParamsResult);
 
 
-        VoucherInfo voucherInfo = voucherHelper.convertToPo(voucherInfoParam);
+        VoucherInfo voucherInfo = voucherHandler.convertToPo(voucherInfoParam);
         voucherInfo.setId(id);
 
         this.updateById(voucherInfo);

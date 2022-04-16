@@ -10,6 +10,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @ApiModel("活动请求参数")
 @Data
-public class VoucherActivityParam {
+public class VoucherActivityParam implements Serializable {
 
     @ApiModelProperty("id")
     private Long id;

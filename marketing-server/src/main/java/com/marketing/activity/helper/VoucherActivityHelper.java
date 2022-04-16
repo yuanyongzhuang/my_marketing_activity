@@ -32,25 +32,6 @@ public class VoucherActivityHelper {
     @Resource
     private VoucherActivityInfoMapper voucherActivityInfoMapper;
 
-    public VoucherActivityInfo convertToPo(VoucherActivityParam param) {
-        VoucherActivityInfo activityInfo = new VoucherActivityInfo();
-        activityInfo.setTitle(param.getTitle());
-        String depIds = param.getDepId().stream().map(String::valueOf).collect(Collectors.joining(","));
-        activityInfo.setDepId(depIds);
-        activityInfo.setActivityType(param.getActivityType());
-        activityInfo.setColumnId(param.getColumnId());
-        activityInfo.setStartTime(BaseContextHandler.getAccessTime());
-        activityInfo.setEndTime(param.getEndTime());
-        activityInfo.setOperator(param.getOperator());
-        activityInfo.setEnabledStatus(1);
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("remarks", param.getRemarks());
-        activityInfo.setExpandJson(jsonObject.toJSONString());
-
-        return activityInfo;
-    }
-
     public List<VoucherActivityInfo> getPageList(VoucherActivityPageParam pageParam){
 
         LambdaQueryWrapper<VoucherActivityInfo> queryWrapper = Wrappers.lambdaQuery(VoucherActivityInfo.class);

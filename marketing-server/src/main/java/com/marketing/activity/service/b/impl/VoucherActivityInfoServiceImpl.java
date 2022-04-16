@@ -13,12 +13,14 @@ import com.marketing.activity.domain.param.VoucherActivityPageParam;
 import com.marketing.activity.domain.param.VoucherActivityParam;
 import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
+import com.marketing.activity.handler.VoucherActivityHandler;
 import com.marketing.activity.helper.VoucherActivityHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.b.VoucherActivityInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,18 +35,18 @@ import java.util.List;
 @Service
 public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityInfoMapper, VoucherActivityInfo> implements VoucherActivityInfoService {
 
-    private final VoucherActivityHelper voucherActivityHelper;
+    @Resource
+    private VoucherActivityHelper voucherActivityHelper;
 
-    public VoucherActivityInfoServiceImpl(VoucherActivityHelper voucherActivityHelper){
-        this.voucherActivityHelper = voucherActivityHelper;
-    }
+    @Resource
+    private VoucherActivityHandler voucherActivityHandler;
 
     @Override
     public CommonResult<Boolean> add(VoucherActivityParam voucherActivityParam) {
         Assert.isFalse(voucherActivityParam == null, ErrorMsg.PARAM_IS_NULL);
         String checkParamsResult = voucherActivityParam.checkParams();
         Assert.isNull(checkParamsResult,checkParamsResult);
-        VoucherActivityInfo voucherActivityInfo = voucherActivityHelper.convertToPo(voucherActivityParam);
+        VoucherActivityInfo voucherActivityInfo = voucherActivityHandler.convertToPo(voucherActivityParam);
         this.save(voucherActivityInfo);
         return CommonResult.success(Boolean.TRUE);
     }
@@ -56,7 +58,7 @@ public class VoucherActivityInfoServiceImpl extends ServiceImpl<VoucherActivityI
         VoucherActivityInfo info = this.getById(id);
         Assert.isFalse((info == null || info.getDeleteStatus() == 1),"活动" + ErrorMsg.DOES_NOT_EXIST);
 
-        VoucherActivityInfo updateInfo = voucherActivityHelper.convertToPo(voucherActivityParam);
+        VoucherActivityInfo updateInfo = voucherActivityHandler.convertToPo(voucherActivityParam);
         updateInfo.setId(info.getId());
 
         this.updateById(updateInfo);

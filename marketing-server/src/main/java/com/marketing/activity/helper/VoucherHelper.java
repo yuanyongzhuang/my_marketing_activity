@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.constant.VoucherConstant;
 import com.marketing.activity.domain.entity.VoucherInfo;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 券工具
@@ -28,44 +29,7 @@ public class VoucherHelper {
     @Resource
     private VoucherInfoMapper voucherInfoMapper;
 
-    public VoucherInfo convertToPo(VoucherInfoParam paramInfo){
-        VoucherInfo resultInfo = new VoucherInfo();
 
-        //基础属性
-        resultInfo.setShowName(paramInfo.getShowName());
-        resultInfo.setStock(paramInfo.getStock());
-        resultInfo.setTotalNum(paramInfo.getStock());
-        resultInfo.setEachLimit(paramInfo.getEachLimit());
-
-        //适用商品
-        Integer useRangeType = paramInfo.getUseRangeType();
-        resultInfo.setUseRangeType(useRangeType);
-        if(useRangeType > 0){
-            List<Integer> useRangeContent = paramInfo.getUseRangeContent();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("useRangeContent",useRangeContent);
-            resultInfo.setExpandJson(jsonObject.toJSONString());
-        }
-
-        //减免、封顶
-        resultInfo.setFullAmounts(paramInfo.getFullAmounts());
-        resultInfo.setDiscountType(paramInfo.getDiscountType());
-        resultInfo.setDiscountAmounts(paramInfo.getDiscountAmounts());
-        resultInfo.setTopDiscountAmounts(paramInfo.getTopDiscountAmounts());
-
-        //可用时段
-        Integer useTimeType = paramInfo.getUseTimeType();
-        resultInfo.setUseTimeType(useTimeType);
-        if(useRangeType == 0){
-            resultInfo.setUseTimeStart(BaseContextHandler.getAccessTime());
-        }
-        resultInfo.setUseTimeEnd(paramInfo.getUseTimeEnd());
-        resultInfo.setUseTimePlusDay(paramInfo.getUseTimePlusDay());
-
-        resultInfo.setOperator(paramInfo.getOperator());
-
-        return resultInfo;
-    }
 
     /**
      * 生成券码
@@ -136,5 +100,13 @@ public class VoucherHelper {
                 .eq(VoucherInfo::getActivityId,pageParam.getActivityId())
                 .eq(VoucherInfo::getDeleteStatus, EnabledStatusEnum.NO.getValue()));
         return list;
+    }
+
+    public List<VoucherInfo> batchQueryVoucherListByIds(Set<Long> voucherIds) {
+        LambdaQueryWrapper<VoucherInfo> voucherInfoLambdaQueryWrapper = Wrappers.lambdaQuery(VoucherInfo.class);
+        voucherInfoLambdaQueryWrapper.eq(VoucherInfo::getDeleteStatus,EnabledStatusEnum.NO.getValue());
+        voucherInfoLambdaQueryWrapper.eq(VoucherInfo::getEnabledStatus,EnabledStatusEnum.YES.getValue());
+        voucherInfoLambdaQueryWrapper.in(VoucherInfo::getId,voucherIds);
+        return voucherInfoMapper.selectList(voucherInfoLambdaQueryWrapper);
     }
 }

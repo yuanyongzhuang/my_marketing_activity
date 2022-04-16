@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor//有参构造
 @NoArgsConstructor//无参构造
-public class VoucherActivityInfoResp {
+public class VoucherActivityInfoResp implements Serializable {
 
     @ApiModelProperty(value = "活动ID", required = true)
     private Long id;
