@@ -4,7 +4,9 @@ package com.marketing.activity.controller.c;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.domain.param.OrderConfirmVoucherParam;
 import com.marketing.activity.domain.param.UserVoucherParam;
+import com.marketing.activity.domain.resp.OrderConfirmVoucherResp;
 import com.marketing.activity.domain.resp.UserVoucherResp;
 import com.marketing.activity.service.VoucherUserService;
 import io.swagger.annotations.Api;
@@ -39,5 +41,11 @@ public class VoucherUserController {
     @PostMapping("/getVoucherList")
     public CommonResult<CommonPage<UserVoucherResp>> getMyVoucherList(@RequestBody UserVoucherParam userVoucherParam){
         return voucherUserService.getMyVoucherList(userVoucherParam);
+    }
+
+    @ApiOperation("订单选券列表")
+    @PostMapping("/getOrderConfirmVoucherList")
+    public CommonResult<OrderConfirmVoucherResp> getOrderConfirmVoucherList(@RequestBody OrderConfirmVoucherParam orderConfirmVoucherParam){
+        return voucherUserService.getOrderConfirmVoucherList(orderConfirmVoucherParam);
     }
 }

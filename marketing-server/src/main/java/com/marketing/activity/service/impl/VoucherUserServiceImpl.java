@@ -9,12 +9,16 @@ import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.bo.VoucherText;
+import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.entity.VoucherUser;
+import com.marketing.activity.domain.param.OrderConfirmVoucherParam;
 import com.marketing.activity.domain.param.UserVoucherParam;
+import com.marketing.activity.domain.resp.OrderConfirmVoucherResp;
 import com.marketing.activity.domain.resp.UserVoucherResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.enums.UserVoucherStatusEnum;
+import com.marketing.activity.handler.ProductHandler;
 import com.marketing.activity.handler.VoucherHandler;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.helper.VoucherUserHelper;
@@ -43,12 +47,16 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
 
     @Resource
     VoucherHandler voucherHandler;
+    @Resource
+    VoucherHelper voucherHelper;
 
     @Resource
     VoucherUserHelper voucherUserHelper;
 
+
     @Resource
-    VoucherHelper voucherHelper;
+    ProductHandler productHandler;
+
 
     @Override
     public CommonResult<CommonPage<UserVoucherResp>> getMyVoucherList(UserVoucherParam userVoucherParam) {
@@ -144,5 +152,19 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
 
         commonPage.setList(respList);
         return CommonResult.success(commonPage);
+    }
+
+    @Override
+    public CommonResult<OrderConfirmVoucherResp> getOrderConfirmVoucherList(OrderConfirmVoucherParam orderConfirmVoucherParam) {
+        Assert.notNull(orderConfirmVoucherParam,ErrorMsg.PARAM_IS_NULL);
+        Long userId = orderConfirmVoucherParam.getUserId();
+        Assert.isFalse((userId == null || userId <= 0),ErrorMsg.USER_ID_IS_NULL);
+        Set<Integer> productIds = orderConfirmVoucherParam.getProductIds();
+        Assert.isFalse(CollectionUtil.isEmpty(productIds),"商品Id不能为空");
+        List<PackageInfoByPackageIdDTO> productList = productHandler.batchGetProductListByIds(productIds);
+
+
+
+        return null;
     }
 }
