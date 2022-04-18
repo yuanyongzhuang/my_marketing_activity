@@ -1,6 +1,7 @@
 package com.marketing.activity.handler;
 
 import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
+import com.marketing.activity.remote.ProductRemoteService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

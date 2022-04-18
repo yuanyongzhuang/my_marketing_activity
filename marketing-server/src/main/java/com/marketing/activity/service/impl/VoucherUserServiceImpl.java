@@ -20,6 +20,7 @@ import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.enums.UserVoucherStatusEnum;
 import com.marketing.activity.handler.ProductHandler;
 import com.marketing.activity.handler.VoucherHandler;
+import com.marketing.activity.handler.VoucherUserHandler;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.helper.VoucherUserHelper;
 import com.marketing.activity.mapper.VoucherUserMapper;
@@ -52,6 +53,8 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
 
     @Resource
     VoucherUserHelper voucherUserHelper;
+    @Resource
+    VoucherUserHandler voucherUserHandler;
 
 
     @Resource
@@ -161,7 +164,19 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
         Assert.isFalse((userId == null || userId <= 0),ErrorMsg.USER_ID_IS_NULL);
         Set<Integer> productIds = orderConfirmVoucherParam.getProductIds();
         Assert.isFalse(CollectionUtil.isEmpty(productIds),"商品Id不能为空");
+
         List<PackageInfoByPackageIdDTO> productList = productHandler.batchGetProductListByIds(productIds);
+        Assert.isFalse(CollectionUtil.isEmpty(productList),"商品信息不存在");
+
+        OrderConfirmVoucherResp respResult = new OrderConfirmVoucherResp();
+
+        List<VoucherUser> voucherUserList = voucherUserHelper.getAllList(userId);
+        if(CollectionUtil.isEmpty(voucherUserList)){
+            log.error("getOrderConfirmVoucherList 用户领取券为空 voucherUserList is null");
+            return CommonResult.success(respResult);
+        }
+        //过滤可用券，异步处理过期券
+        List<VoucherUser> availableList = voucherUserHandler.filterAvailableVoucher(voucherUserList);
 
 
 

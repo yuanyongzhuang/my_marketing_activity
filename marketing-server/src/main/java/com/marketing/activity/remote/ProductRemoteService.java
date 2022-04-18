@@ -1,12 +1,15 @@
 package com.marketing.activity.remote;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.marketing.activity.base.ApiErrorCode;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.constant.SignKeyConstant;
 import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
 import com.marketing.activity.domain.vo.PackageInfoByPackageIdVO;
+import com.marketing.activity.remote.api.ProductFeignApi;
+import com.marketing.activity.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,6 +40,6 @@ public class ProductRemoteService {
             return infoByPackageIdList.getData();
         }
 
-        return com.google.common.collect.Lists.newArrayList();
+        return Lists.newArrayList();
     }
 }
