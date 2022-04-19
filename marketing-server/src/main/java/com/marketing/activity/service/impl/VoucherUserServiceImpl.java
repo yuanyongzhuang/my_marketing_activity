@@ -1,5 +1,6 @@
 package com.marketing.activity.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
@@ -177,7 +178,13 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
         }
         //过滤可用券，异步处理过期券
         List<VoucherUser> availableList = voucherUserHandler.filterAvailableVoucher(voucherUserList);
+        if(CollUtil.isEmpty(availableList)){
+            log.error("getOrderConfirmVoucherList 可用券为空 availableList is null");
+            return CommonResult.success(respResult);
+        }
+        Set<Long> voucherIds = availableList.stream().map(VoucherUser::getVoucherId).collect(Collectors.toSet());
 
+        //券数据
 
 
         return null;
