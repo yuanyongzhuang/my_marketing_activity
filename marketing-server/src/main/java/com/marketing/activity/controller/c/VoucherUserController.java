@@ -4,6 +4,7 @@ package com.marketing.activity.controller.c;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.domain.param.ChangeUseStatusParam;
 import com.marketing.activity.domain.param.OrderConfirmVoucherParam;
 import com.marketing.activity.domain.param.UserVoucherParam;
 import com.marketing.activity.domain.resp.OrderConfirmVoucherResp;
@@ -47,5 +48,11 @@ public class VoucherUserController {
     @PostMapping("/getOrderConfirmVoucherList")
     public CommonResult<OrderConfirmVoucherResp> getOrderConfirmVoucherList(@RequestBody OrderConfirmVoucherParam orderConfirmVoucherParam){
         return voucherUserService.getOrderConfirmVoucherList(orderConfirmVoucherParam);
+    }
+
+    @ApiOperation("修改使用状态")
+    @PostMapping("/changeUseStatus")
+    public CommonResult<Boolean> changeUseStatus(@RequestBody ChangeUseStatusParam changeUseStatusParam){
+        return voucherUserService.changeUseStatus(changeUseStatusParam);
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.entity.VoucherUser;
+import com.marketing.activity.domain.param.ChangeUseStatusParam;
 import com.marketing.activity.domain.param.OrderConfirmVoucherParam;
 import com.marketing.activity.domain.param.UserVoucherParam;
 import com.marketing.activity.domain.resp.OrderConfirmVoucherResp;
@@ -32,4 +33,11 @@ public interface VoucherUserService extends IService<VoucherUser> {
      * @return obj
      */
     CommonResult<OrderConfirmVoucherResp> getOrderConfirmVoucherList(OrderConfirmVoucherParam orderConfirmVoucherParam);
+
+    /**
+     * 修改用户优惠券状态
+     * @param changeUseStatusParam 请求参数
+     * @return obj
+     */
+    CommonResult<Boolean> changeUseStatus(ChangeUseStatusParam changeUseStatusParam);
 }

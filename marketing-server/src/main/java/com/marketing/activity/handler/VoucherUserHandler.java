@@ -1,9 +1,14 @@
 package com.marketing.activity.handler;
 
 import cn.hutool.core.collection.CollUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.marketing.activity.BaseContextHandler;
+import com.marketing.activity.constant.ErrorMsg;
+import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
 import com.marketing.activity.domain.entity.VoucherUser;
+import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.enums.UserVoucherStatusEnum;
 import com.marketing.activity.mapper.VoucherUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +78,47 @@ public class VoucherUserHandler {
 
             log.info("asyncExpire userId={}, voucherUserId={}, code={}", voucherUser.getUserId(), voucherUser.getVoucherId(), voucherUser.getVoucherCode());
         }
+    }
+
+    /**
+     * 过滤券的指定商品
+     * @param useRangeType 使用商品范围 0全类品 1指定商品 2指定品类
+     * @param expandJson 券使用范围
+     * @param productList 指定商品集
+     * @return
+     */
+    public List<PackageInfoByPackageIdDTO> filterProductList(Integer useRangeType, String expandJson, List<PackageInfoByPackageIdDTO> productList) {
+        List<Integer> ids = Lists.newArrayList();
+        if(useRangeType > 0){
+            JSONObject jsonObject = JSONObject.parseObject(expandJson);
+            JSONArray useRangeContent = jsonObject.getJSONArray("useRangeContent");
+            List<Integer> integers = useRangeContent.toJavaList(Integer.class);
+            ids.addAll(integers);
+        }
+        switch (useRangeType){
+            case 0:
+                return  productList;
+            case 1:
+                return productList.stream().filter(pInfo -> ids.contains(pInfo.getPackageId())).collect(Collectors.toList());
+            case 2:
+                return productList.stream().filter(pInfo -> ids.contains(pInfo.getExamId())).collect(Collectors.toList());
+        }
+        return Lists.newArrayList();
+    }
+
+    public String availableValidate(VoucherUser voucherUser) {
+        if(voucherUser == null || EnabledStatusEnum.YES.getValue().equals(voucherUser.getDeleteStatus())){
+            return ErrorMsg.USER_COUPON_IS_NULL;
+        }
+        //使用状态 0未使用 1已使用 2已过期
+        Integer useStatus = voucherUser.getUseStatus();
+        if(UserVoucherStatusEnum.USED.getValue().equals(useStatus)){
+            return ErrorMsg.USER_COUPON_IS_USED;
+        }
+        if(UserVoucherStatusEnum.EXPIRED.getValue().equals(useStatus) || voucherUser.getExpireTime().before(BaseContextHandler.getAccessTime())){
+            return ErrorMsg.COUPON_IS_EXPIRED;
+        }
+        return null;
     }
 
     //    /**

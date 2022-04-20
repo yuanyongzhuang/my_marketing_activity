@@ -13,6 +13,7 @@ import com.marketing.activity.domain.bo.VoucherText;
 import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.entity.VoucherUser;
+import com.marketing.activity.domain.param.ChangeUseStatusParam;
 import com.marketing.activity.domain.param.OrderConfirmVoucherParam;
 import com.marketing.activity.domain.param.UserVoucherParam;
 import com.marketing.activity.domain.resp.OrderConfirmVoucherResp;
@@ -28,9 +29,11 @@ import com.marketing.activity.mapper.VoucherUserMapper;
 import com.marketing.activity.service.VoucherUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -56,6 +59,8 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
     VoucherUserHelper voucherUserHelper;
     @Resource
     VoucherUserHandler voucherUserHandler;
+    @Resource
+    VoucherUserMapper voucherUserMapper;
 
 
     @Resource
@@ -132,7 +137,7 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
             Long id = info.getId();
 
             VoucherInfo voucherInfo = voucherInfoMap.get(info.getVoucherId());
-            if(Objects.isNull(voucherIds)){
+            if(Objects.isNull(voucherInfo)){
                 log.info("getOrderConfirmVoucherList 用户券ID=[{}] voucher info is null", id);
                 continue;
             }
@@ -185,8 +190,99 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
         Set<Long> voucherIds = availableList.stream().map(VoucherUser::getVoucherId).collect(Collectors.toSet());
 
         //券数据
+        List<VoucherInfo> voucherList = voucherHelper.batchQueryVoucherListByIds(voucherIds);
+        if(CollUtil.isEmpty(voucherList)){
+            log.error("getOrderConfirmVoucherList 券数据为空 voucherList is null");
+            return CommonResult.success(respResult);
+        }
+        Map<Long, VoucherInfo> voucherInfoMap = voucherList.stream().collect(Collectors.toMap(VoucherInfo::getId, Function.identity(), (v1, v2) -> v1));
 
+        //记录可用券
+        ArrayList<UserVoucherResp> canUseList = Lists.newArrayList();
+        ArrayList<UserVoucherResp> notUseList = Lists.newArrayList();
+        for(VoucherUser info: availableList){
+            Long id = info.getId();
 
-        return null;
+            VoucherInfo voucherBaseInfo = voucherInfoMap.get(info.getVoucherId());
+            if(Objects.isNull(voucherBaseInfo)){
+                log.info("getOrderConfirmVoucherList 用户券ID={} voucher info is null",id);
+                continue;
+            }
+            UserVoucherResp respInfo = new UserVoucherResp();
+            //用户券ID
+            respInfo.setUserVoucherId(id.toString());
+            respInfo.setVoucherCode(voucherBaseInfo.getInnerCode());
+            respInfo.setShowName(voucherBaseInfo.getShowName());
+            //描述文案
+            VoucherText voucherText = voucherHandler.getVoucherText(voucherBaseInfo);
+            respInfo.setUseRuleDesc(voucherText.getUseRangeText());
+            respInfo.setUseRangeDesc(voucherText.getUseRangeText());
+            respInfo.setDiscountAmount(voucherText.getDiscountAmountText());
+            //过期时间
+            respInfo.setUseTimeDesc("截至 "+DateUtil.formatDate(info.getExpireTime()));
+            //不可用券文案
+            List<String> unUseMsg = Lists.newArrayList();
+            boolean use = true;
+            //使用商品范围 0全类品 1指定商品 2指定品类
+            Integer useRangeType = voucherBaseInfo.getUseRangeType();
+            List<PackageInfoByPackageIdDTO> filterProductList = voucherUserHandler.filterProductList(useRangeType,voucherBaseInfo.getExpandJson(),productList);
+            if(CollUtil.isEmpty(filterProductList)){
+                if(useRangeType == 1){
+                    unUseMsg.add("仅指定商品可用");
+                }else if(useRangeType == 2){
+                    unUseMsg.add("仅指定品类可用");
+                }
+                use = false;
+            }
+
+            //满额（门槛）
+            BigDecimal fullAmounts = voucherBaseInfo.getFullAmounts() == null ? BigDecimal.ZERO : voucherBaseInfo.getFullAmounts();
+            if(fullAmounts.compareTo(BigDecimal.ZERO) > 0){
+                BigDecimal sum = filterProductList.stream().map(PackageInfoByPackageIdDTO::getPackagePrice).reduce(BigDecimal.ZERO,BigDecimal::add);
+                if(sum.compareTo(fullAmounts) < 0){
+                    unUseMsg.add("满"+fullAmounts.stripTrailingZeros().toPlainString()+"元可用");
+                    use = false;
+                }
+            }
+
+            if(use){
+                canUseList.add(respInfo);
+            }else {
+                respInfo.setUnUseReasons(unUseMsg);
+                notUseList.add(respInfo);
+
+            }
+
+        }
+
+        respResult.setAvailable(canUseList);
+        respResult.setUnavailable(notUseList);
+
+        return CommonResult.success(respResult);
+    }
+
+    @Override
+    public CommonResult<Boolean> changeUseStatus(ChangeUseStatusParam changeUseStatusParam) {
+        Assert.notNull(changeUseStatusParam, ErrorMsg.PARAM_IS_NULL);
+        Long userVoucherId = changeUseStatusParam.getUserVoucherId();
+        Long userId = changeUseStatusParam.getUserId();
+        Assert.isFalse((userVoucherId == null || userVoucherId <= 0), "券Id不能为空");
+        Assert.isFalse((userId == null || userId <= 0), ErrorMsg.USER_ID_IS_NULL);
+        //查询用户券
+        VoucherUser voucherUser = voucherUserMapper.selectById(userVoucherId);
+        //参数校验
+        String validateResult = voucherUserHandler.availableValidate(voucherUser);
+        if(StringUtils.isNotBlank(validateResult)){
+            return CommonResult.failed(validateResult);
+        }
+        VoucherUser voucherUserUpdateInfo = new VoucherUser();
+        voucherUserUpdateInfo.setId(userVoucherId);
+        voucherUserUpdateInfo.setUseStatus(UserVoucherStatusEnum.USED.getValue());
+        voucherUserUpdateInfo.setUseTime(BaseContextHandler.getAccessTime());
+
+        voucherUserMapper.updateById(voucherUserUpdateInfo);
+
+        return CommonResult.success(Boolean.TRUE);
     }
 }
+

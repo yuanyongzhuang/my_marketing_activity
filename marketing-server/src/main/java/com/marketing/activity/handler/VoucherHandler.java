@@ -2,10 +2,13 @@ package com.marketing.activity.handler;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.domain.bo.VoucherText;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.helper.VoucherHelper;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -157,4 +161,5 @@ public class VoucherHandler {
 
         return resultInfo;
     }
+
 }
