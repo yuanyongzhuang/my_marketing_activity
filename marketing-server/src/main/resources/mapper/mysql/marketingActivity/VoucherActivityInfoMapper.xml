@@ -34,5 +34,21 @@
         and vi.enabled_status = 1
         and vi.total_num > 0
     </select>
+    <select id="queryListByColumnId" resultType="com.marketing.activity.domain.entity.VoucherActivityInfo">
+        select
+            vai.*
+        from
+            voucher_activity_info vai left join voucher_info vi on vai.id = vi.activity_id
+        where vai.delete_status = 0 and vai.enabled_status = 1
+        <if test="columnId != null and columnId != 0">
+            and vai.column_id = #{columnId}
+        </if>
+            and vai.start_time <![CDATA[ <= ]]]> NOW()
+            and vai.end_time <![CDATA[ >= ]]]> NOW()
+            and vi.delete_status = 0
+            and vi.enabled_status = 1
+            and vi.total_num > 0
+        order by vai.create_time desc
+    </select>
 
 </mapper>

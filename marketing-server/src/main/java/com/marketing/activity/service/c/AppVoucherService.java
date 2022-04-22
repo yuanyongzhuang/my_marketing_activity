@@ -1,6 +1,9 @@
 package com.marketing.activity.service.c;
 
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
+import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
 
 import java.util.List;
@@ -20,4 +23,11 @@ public interface AppVoucherService {
      * @return list
      */
     CommonResult<List<ExamGroupResp>> getExamGroup();
+
+    /**
+     * 通过分类查询领券列表
+     * @param examGroupPickVoucherParam param
+     * @return obj
+     */
+    CommonResult<CommonPage<ExamGroupPickVoucherResp>> getExamGroupPickList(ExamGroupPickVoucherParam examGroupPickVoucherParam);
 }
