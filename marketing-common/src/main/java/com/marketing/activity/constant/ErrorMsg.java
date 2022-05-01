@@ -25,21 +25,6 @@ public class ErrorMsg {
     public final static String PARAM_IS_NULL = "传入参数不能为空";
     public final static String ID_IS_NULL = "传入id不能为空";
     public final static String USER_ID_IS_NULL = "用户id不能为空";
-    public final static String OPPORTUNITY_ID_IS_NULL = "机会ID不能为空";
-    public final static String STAFF_ID_IS_NULL = "员工id不能为空";
-    public final static String DIVISION_ID_IS_NULL = "事业部id不能为空";
-    public final static String SCHEDULE_WORK_ID_IS_NULL = "scheduleWorkId不能为空";
-
-    public final static String SHIYEBU_NAME_EXIST = "当前事业部额度配置已经存在";
-    public final static String CLASS_ID_NOT_NULL = "班级ID不能为空";
-    public final static String USER_CLASS_IS_NOT_EXIST = "用户班级不存在";
-    public final static String NAME_IS_NULL = "名称（标题）不能空";
-    public final static String CHAPTER_ID_IS_NULL = "章节ID不能为空";
-    public final static String COURSE_ID_IS_NULL = "课程ID不能为空";
-    public final static String COURSE_IS_NOT_EXIST = "课程不存在";
-    public final static String SCHEDULE_ID_IS_NULL = "课节ID不能为空";
-    public final static String SCHEDULE_IS_NOT_EXIST = "课节不存在";
-
     public final static String APP_VERSION_IS_NULL = "版本信息不能为空";
     public final static String FROM_PAGE_IS_NULL = "起始页不能为空";
     public final static String PAGE_SIZE_IS_NULL = "每页显示数量不能为空";

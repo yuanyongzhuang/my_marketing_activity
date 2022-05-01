@@ -1,6 +1,5 @@
 package com.marketing.activity.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
@@ -170,42 +169,42 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
         Assert.isFalse((userId == null || userId <= 0),ErrorMsg.USER_ID_IS_NULL);
         Set<Integer> productIds = orderConfirmVoucherParam.getProductIds();
         Assert.isFalse(CollectionUtil.isEmpty(productIds),"商品Id不能为空");
-
         List<PackageInfoByPackageIdDTO> productList = productHandler.batchGetProductListByIds(productIds);
         Assert.isFalse(CollectionUtil.isEmpty(productList),"商品信息不存在");
 
         OrderConfirmVoucherResp respResult = new OrderConfirmVoucherResp();
 
-        List<VoucherUser> voucherUserList = voucherUserHelper.getAllList(userId);
-        if(CollectionUtil.isEmpty(voucherUserList)){
-            log.error("getOrderConfirmVoucherList 用户领取券为空 voucherUserList is null");
+        List<VoucherUser> userVoucherList = voucherUserHelper.getAllList(userId);
+        if(CollectionUtil.isEmpty(userVoucherList)){
+            log.info("getOrderConfirmVoucherList 用户券为空 userVoucherList is null");
             return CommonResult.success(respResult);
         }
+
         //过滤可用券，异步处理过期券
-        List<VoucherUser> availableList = voucherUserHandler.filterAvailableVoucher(voucherUserList);
-        if(CollUtil.isEmpty(availableList)){
-            log.error("getOrderConfirmVoucherList 可用券为空 availableList is null");
+        List<VoucherUser> availableList = voucherUserHandler.filterAvailableVoucher(userVoucherList);
+        if(CollectionUtil.isEmpty(availableList)){
+            log.info("getOrderConfirmVoucherList 可用券为空 availableList is null");
             return CommonResult.success(respResult);
         }
         Set<Long> voucherIds = availableList.stream().map(VoucherUser::getVoucherId).collect(Collectors.toSet());
 
         //券数据
         List<VoucherInfo> voucherList = voucherHelper.batchQueryVoucherListByIds(voucherIds);
-        if(CollUtil.isEmpty(voucherList)){
-            log.error("getOrderConfirmVoucherList 券数据为空 voucherList is null");
+        if(CollectionUtil.isEmpty(voucherList)){
+            log.info("getOrderConfirmVoucherList 券数据为空 voucherList is null");
             return CommonResult.success(respResult);
         }
         Map<Long, VoucherInfo> voucherInfoMap = voucherList.stream().collect(Collectors.toMap(VoucherInfo::getId, Function.identity(), (v1, v2) -> v1));
 
         //记录可用券
-        ArrayList<UserVoucherResp> canUseList = Lists.newArrayList();
-        ArrayList<UserVoucherResp> notUseList = Lists.newArrayList();
+        List<UserVoucherResp> canUseList = Lists.newArrayList();
+        List<UserVoucherResp> notUseList = Lists.newArrayList();
         for(VoucherUser info: availableList){
             Long id = info.getId();
 
             VoucherInfo voucherBaseInfo = voucherInfoMap.get(info.getVoucherId());
-            if(Objects.isNull(voucherBaseInfo)){
-                log.info("getOrderConfirmVoucherList 用户券ID={} voucher info is null",id);
+            if(voucherBaseInfo == null){
+                log.info("getOrderConfirmVoucherList 用户券ID={} voucher info is null", id);
                 continue;
             }
             UserVoucherResp respInfo = new UserVoucherResp();
@@ -215,44 +214,40 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
             respInfo.setShowName(voucherBaseInfo.getShowName());
             //描述文案
             VoucherText voucherText = voucherHandler.getVoucherText(voucherBaseInfo);
-            respInfo.setUseRuleDesc(voucherText.getUseRangeText());
+            respInfo.setUseRuleDesc(voucherText.getFullAmountsAvailableText());
             respInfo.setUseRangeDesc(voucherText.getUseRangeText());
             respInfo.setDiscountAmount(voucherText.getDiscountAmountText());
             //过期时间
-            respInfo.setUseTimeDesc("截至 "+DateUtil.formatDate(info.getExpireTime()));
+            respInfo.setUseTimeDesc("截止："+DateUtil.formatDate(info.getExpireTime()));
             //不可用券文案
             List<String> unUseMsg = Lists.newArrayList();
             boolean use = true;
-            //使用商品范围 0全类品 1指定商品 2指定品类
+            //适用商品范围 0全品类，1指定商品，2指定品类
             Integer useRangeType = voucherBaseInfo.getUseRangeType();
-            List<PackageInfoByPackageIdDTO> filterProductList = voucherUserHandler.filterProductList(useRangeType,voucherBaseInfo.getExpandJson(),productList);
-            if(CollUtil.isEmpty(filterProductList)){
-                if(useRangeType == 1){
+            List<PackageInfoByPackageIdDTO> filterProductList = voucherUserHandler.filterProductList(useRangeType, voucherBaseInfo.getExpandJson(),productList);
+            if(CollectionUtil.isEmpty(filterProductList)){
+                if(useRangeType == 1) {
                     unUseMsg.add("仅指定商品可用");
                 }else if(useRangeType == 2){
                     unUseMsg.add("仅指定品类可用");
                 }
                 use = false;
             }
-
-            //满额（门槛）
+            //满额（门槛价）
             BigDecimal fullAmounts = voucherBaseInfo.getFullAmounts() == null ? BigDecimal.ZERO : voucherBaseInfo.getFullAmounts();
             if(fullAmounts.compareTo(BigDecimal.ZERO) > 0){
-                BigDecimal sum = filterProductList.stream().map(PackageInfoByPackageIdDTO::getPackagePrice).reduce(BigDecimal.ZERO,BigDecimal::add);
+                BigDecimal sum = filterProductList.stream().map(PackageInfoByPackageIdDTO::getPackagePrice).reduce(BigDecimal.ZERO, BigDecimal::add);
                 if(sum.compareTo(fullAmounts) < 0){
-                    unUseMsg.add("满"+fullAmounts.stripTrailingZeros().toPlainString()+"元可用");
+                    unUseMsg.add("满" + fullAmounts.stripTrailingZeros().toPlainString() + "元可用");
                     use = false;
                 }
             }
-
             if(use){
                 canUseList.add(respInfo);
-            }else {
+            }else{
                 respInfo.setUnUseReasons(unUseMsg);
                 notUseList.add(respInfo);
-
             }
-
         }
 
         respResult.setAvailable(canUseList);
@@ -265,24 +260,20 @@ public class VoucherUserServiceImpl extends ServiceImpl<VoucherUserMapper, Vouch
     public CommonResult<Boolean> changeUseStatus(ChangeUseStatusParam changeUseStatusParam) {
         Assert.notNull(changeUseStatusParam, ErrorMsg.PARAM_IS_NULL);
         Long userVoucherId = changeUseStatusParam.getUserVoucherId();
+        Assert.isFalse((userVoucherId == null || userVoucherId <= 0), "券Id为空");
         Long userId = changeUseStatusParam.getUserId();
-        Assert.isFalse((userVoucherId == null || userVoucherId <= 0), "券Id不能为空");
-        Assert.isFalse((userId == null || userId <= 0), ErrorMsg.USER_ID_IS_NULL);
+        Assert.isFalse((userId == null || userId <= 0),ErrorMsg.USER_ID_IS_NULL);
         //查询用户券
         VoucherUser voucherUser = voucherUserMapper.selectById(userVoucherId);
         //参数校验
         String validateResult = voucherUserHandler.availableValidate(voucherUser);
-        if(StringUtils.isNotBlank(validateResult)){
-            return CommonResult.failed(validateResult);
-        }
-        VoucherUser voucherUserUpdateInfo = new VoucherUser();
-        voucherUserUpdateInfo.setId(userVoucherId);
-        voucherUserUpdateInfo.setUseStatus(UserVoucherStatusEnum.USED.getValue());
-        voucherUserUpdateInfo.setUseTime(BaseContextHandler.getAccessTime());
+        Assert.isFalse(StringUtils.isNotBlank(validateResult),validateResult);
 
-        voucherUserMapper.updateById(voucherUserUpdateInfo);
-
+        VoucherUser updateInfo = new VoucherUser();
+        updateInfo.setId(userVoucherId);
+        updateInfo.setUseStatus(UserVoucherStatusEnum.USED.getValue());
+        updateInfo.setUseTime(BaseContextHandler.getAccessTime());
+        voucherUserMapper.updateById(updateInfo);
         return CommonResult.success(Boolean.TRUE);
     }
 }
-
