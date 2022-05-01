@@ -14,6 +14,7 @@ import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
 import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
 import com.marketing.activity.handler.ExamDirectoryHandler;
+import com.marketing.activity.handler.VoucherUserHandler;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.c.AppVoucherService;
 import io.swagger.models.auth.In;
@@ -39,6 +40,8 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     private VoucherActivityInfoMapper voucherActivityInfoMapper;
     @Resource
     private ExamDirectoryHandler examDirectoryHandler;
+    @Resource
+    private VoucherUserHandler voucherUserHandler;
 
     @Override
     public CommonResult<List<ExamGroupResp>> getExamGroup() {
@@ -74,6 +77,7 @@ public class AppVoucherServiceImpl implements AppVoucherService {
         }
         //用户券
         Map<Long/* voucherId */,List<VoucherUser>> voucherUserListMap = voucherUserHandler.getUserAllVoucherMap(queryParam.getUserId());
+
 
         return null;
     }
