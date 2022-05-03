@@ -9,15 +9,18 @@ import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.dto.ExamDirectoryInfoDTO;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
+import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.entity.VoucherUser;
 import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
 import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
 import com.marketing.activity.handler.ExamDirectoryHandler;
 import com.marketing.activity.handler.VoucherUserHandler;
+import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.c.AppVoucherService;
 import io.swagger.models.auth.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +37,7 @@ import java.util.stream.Collectors;
  * @since 2022/4/14
  */
 @Service
+@Slf4j
 public class AppVoucherServiceImpl implements AppVoucherService {
 
     @Resource
@@ -42,6 +46,15 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     private ExamDirectoryHandler examDirectoryHandler;
     @Resource
     private VoucherUserHandler voucherUserHandler;
+    @Resource
+    private VoucherHelper voucherHelper;
+
+
+
+
+
+
+
 
     @Override
     public CommonResult<List<ExamGroupResp>> getExamGroup() {
@@ -78,7 +91,23 @@ public class AppVoucherServiceImpl implements AppVoucherService {
         //用户券
         Map<Long/* voucherId */,List<VoucherUser>> voucherUserListMap = voucherUserHandler.getUserAllVoucherMap(queryParam.getUserId());
 
+        List<ExamGroupPickVoucherResp> resultList = Lists.newArrayList();
+        for(VoucherActivityInfo activityInfo: activityList){
+            //V
+            VoucherInfo voucherInfo = voucherHelper.getVoucherInfoByActivityId(activityInfo.getId());
+            if(voucherInfo == null){
+                continue;
+            }
 
+            ExamGroupPickVoucherResp respInfo = new ExamGroupPickVoucherResp();
+            respInfo.setVoucherId(voucherInfo.getId().toString());
+            respInfo.setVoucherCode(voucherInfo.getInnerCode());
+            respInfo.setShowName(voucherInfo.getShowName());
+            //描述文案
+            voucherHandler.getVoucherText(voucherInfo);
+
+
+        }
         return null;
     }
 }

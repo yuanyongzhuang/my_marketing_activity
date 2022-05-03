@@ -1,5 +1,6 @@
 package com.marketing.activity.helper;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -108,5 +109,19 @@ public class VoucherHelper {
         voucherInfoLambdaQueryWrapper.eq(VoucherInfo::getEnabledStatus,EnabledStatusEnum.YES.getValue());
         voucherInfoLambdaQueryWrapper.in(VoucherInfo::getId,voucherIds);
         return voucherInfoMapper.selectList(voucherInfoLambdaQueryWrapper);
+    }
+
+    public VoucherInfo getVoucherInfoByActivityId(Long activityId) {
+        List<VoucherInfo> list = this.getVoucherByActivityId(activityId);
+        return CollectionUtil.isEmpty(list) ? null : list.get(0);
+    }
+
+    private List<VoucherInfo> getVoucherByActivityId(Long activityId) {
+        LambdaQueryWrapper<VoucherInfo> queryWrapper = Wrappers.lambdaQuery(VoucherInfo.class);
+        queryWrapper.eq(VoucherInfo::getDeleteStatus, EnabledStatusEnum.NO.getValue());
+        queryWrapper.eq(VoucherInfo::getEnabledStatus, EnabledStatusEnum.YES.getValue());
+        queryWrapper.eq(VoucherInfo::getActivityId, activityId);
+
+        return voucherInfoMapper.selectList(queryWrapper);
     }
 }

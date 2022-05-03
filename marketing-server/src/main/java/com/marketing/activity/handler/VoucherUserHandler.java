@@ -1,15 +1,18 @@
 package com.marketing.activity.handler;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
 import com.marketing.activity.domain.entity.VoucherUser;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.enums.UserVoucherStatusEnum;
+import com.marketing.activity.helper.VoucherUserHelper;
 import com.marketing.activity.mapper.VoucherUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +37,9 @@ public class VoucherUserHandler {
 
     @Resource
     VoucherUserMapper voucherUserMapper;
+
+    @Resource
+    VoucherUserHelper voucherUserHelper;
 
     /**
      * 过滤券
@@ -119,6 +126,17 @@ public class VoucherUserHandler {
             return ErrorMsg.COUPON_IS_EXPIRED;
         }
         return null;
+    }
+
+    public Map<Long, List<VoucherUser>> getUserAllVoucherMap(Long userId) {
+        if(userId == null || userId <= 0){
+            return Maps.newHashMap();
+        }
+        List<VoucherUser> list = voucherUserHelper.getAllList(userId);
+        if(CollectionUtil.isEmpty(list)){
+            return Maps.newHashMap();
+        }
+        return list.stream().collect(Collectors.groupingBy(VoucherUser::getVoucherId));
     }
 
     //    /**
