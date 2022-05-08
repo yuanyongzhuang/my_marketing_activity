@@ -3,6 +3,7 @@ package com.marketing.activity.service.c;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
+import com.marketing.activity.domain.param.ReceiveVoucherParam;
 import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
 
@@ -30,4 +31,11 @@ public interface AppVoucherService {
      * @return obj
      */
     CommonResult<CommonPage<ExamGroupPickVoucherResp>> getExamGroupPickList(ExamGroupPickVoucherParam examGroupPickVoucherParam);
+
+    /**
+     * 领取优惠券
+     * @param receiveVoucherParam param
+     * @return obj
+     */
+    CommonResult<Boolean> receiveVoucher(ReceiveVoucherParam receiveVoucherParam);
 }
