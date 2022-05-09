@@ -17,9 +17,7 @@ import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
 import com.marketing.activity.domain.param.ReceiveVoucherParam;
 import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
-import com.marketing.activity.handler.ExamDirectoryHandler;
-import com.marketing.activity.handler.VoucherHandler;
-import com.marketing.activity.handler.VoucherUserHandler;
+import com.marketing.activity.handler.*;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
 import com.marketing.activity.service.c.AppVoucherService;
@@ -56,6 +54,10 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     private VoucherHelper voucherHelper;
     @Resource
     private VoucherHandler voucherHandler;
+    @Resource
+    private UserHandler userHandler;
+    @Resource
+    private VoucherDataBuildHandler voucherDataBuildHandler;
 
 
     @Override
@@ -155,6 +157,7 @@ public class AppVoucherServiceImpl implements AppVoucherService {
         UserInfoDTO userInfoDTO = userHandler.getUserInfo(userId.intValue());
         Assert.notNull(userInfoDTO, ErrorMsg.USER_IS_NOT_EXIST);
 
+        VoucherDataResult voucherDataResult = voucherDataBuildHandler.getVoucherData(voucherCode);
 
 
 
