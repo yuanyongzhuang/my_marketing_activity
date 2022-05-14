@@ -5,7 +5,9 @@ import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.domain.param.VoucherReceiveDataPageParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
+import com.marketing.activity.domain.resp.VoucherReceiveDataResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 import com.marketing.activity.service.b.VoucherInfoService;
 import io.swagger.annotations.Api;
@@ -46,9 +48,9 @@ public class VoucherInfoController {
         return voucherInfoService.edit(id, voucherInfoParam);
     }
 
-    @ApiOperation("更新")
-    @GetMapping("/edit/{id}")
-    public CommonResult<VoucherInfoResp> edit(@PathVariable("id") Long id) {
+    @ApiOperation("详情")
+    @GetMapping("/get/{id}")
+    public CommonResult<VoucherInfoResp> get(@PathVariable("id") Long id) {
         return voucherInfoService.get(id);
     }
 
@@ -65,6 +67,13 @@ public class VoucherInfoController {
     public CommonResult<CommonPage<VoucherInfoResp>> getList(@RequestBody VoucherInfoPageParam pageParam){
         CommonPage<VoucherInfoResp> commonPage = voucherInfoService.getList(pageParam);
         return CommonResult.success(commonPage);
+    }
+
+    @ApiOperation("查看券领券记录")
+    @PostMapping("/voucherReceiveData")
+    public CommonResult<CommonPage<VoucherReceiveDataResp>> voucherReceiveData(@RequestBody VoucherReceiveDataPageParam pageParam){
+       CommonPage<VoucherReceiveDataResp> commonPage = voucherInfoService.voucherReceiveData(pageParam);
+       return CommonResult.success(commonPage);
     }
 
 

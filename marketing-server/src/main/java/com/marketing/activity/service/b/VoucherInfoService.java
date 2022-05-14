@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.domain.param.VoucherReceiveDataPageParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
+import com.marketing.activity.domain.resp.VoucherReceiveDataResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 
 /**
@@ -54,4 +56,11 @@ public interface VoucherInfoService extends IService<VoucherInfo> {
      * @return obj
      */
     CommonResult<VoucherInfoResp> get(Long id);
+
+    /**
+     * 查询领取记录
+     * @param pageParam 参数
+     * @return obj
+     */
+    CommonPage<VoucherReceiveDataResp> voucherReceiveData(VoucherReceiveDataPageParam pageParam);
 }

@@ -20,5 +20,20 @@
     <sql id="Base_Column_List">
         id, voucher_id, voucher_code, user_id, use_status, use_time, expire_time, delete_status, create_time, update_time
     </sql>
+    <select id="getReceiveDataPageList" resultType="com.marketing.activity.domain.entity.VoucherUser">
+        select * from voucher_user
+        where delete_status = 0
+        and voucher_id = #{couponId}
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="userVoucherId != null">
+            and id = #{userVoucherId}
+        </if>
+        <if test="couponStatus != null">
+            and use_status = #{couponStatus}
+        </if>
+        order by id desc
+    </select>
 
 </mapper>

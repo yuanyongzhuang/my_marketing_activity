@@ -2,28 +2,38 @@ package com.marketing.activity.handler;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.PhoneUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.marketing.activity.BaseContextHandler;
+import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.dto.PackageInfoByPackageIdDTO;
+import com.marketing.activity.domain.dto.UserInfoDTO;
 import com.marketing.activity.domain.entity.VoucherUser;
+import com.marketing.activity.domain.param.VoucherReceiveDataPageParam;
+import com.marketing.activity.domain.resp.VoucherReceiveDataResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.enums.UserVoucherStatusEnum;
 import com.marketing.activity.helper.VoucherUserHelper;
 import com.marketing.activity.mapper.VoucherUserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +53,9 @@ public class VoucherUserHandler {
 
     @Resource
     VoucherUserHelper voucherUserHelper;
+
+    @Resource
+    UserHandler userHandler;
 
     /**
      * 过滤券
@@ -158,6 +171,68 @@ public class VoucherUserHandler {
 
     public List<VoucherUser> getUserVoucherList(Long userId, Long voucherId) {
         return this.getUserVoucherList(userId, voucherId, null);
+    }
+
+    /**
+     *
+     * @param pageParam
+     * @return
+     */
+    public List<VoucherReceiveDataResp> voucherReceiveData(VoucherReceiveDataPageParam pageParam) {
+
+        Assert.notNull(pageParam, ErrorMsg.PARAM_IS_NULL);
+
+        if(StringUtils.isNotEmpty(pageParam.getMobile())){
+            UserInfoDTO userInfoDTO = userHandler.getUserInfoByMobile(pageParam.getMobile());
+            Assert.notNull(userInfoDTO, ErrorMsg.USER_IS_NOT_EXIST);
+            pageParam.setUserId(userInfoDTO.getGroupId().longValue());
+        }
+
+        List<VoucherReceiveDataResp> respList = new ArrayList<>();
+
+        List<VoucherUser> receiveDataList = voucherUserMapper.getReceiveDataPageList(pageParam);
+        if(CollUtil.isEmpty(receiveDataList)){
+            return null;
+        }
+
+        Set<Integer> userIds = receiveDataList.stream().map(info -> info.getUserId().intValue()).collect(Collectors.toSet());
+        Map<Integer, UserInfoDTO> userMap = userHandler.getUserMapByUserIds(userIds);
+
+        for(VoucherUser voucherUser: receiveDataList){
+            VoucherReceiveDataResp resp = new VoucherReceiveDataResp();
+            resp.setUserVoucherId(voucherUser.getId().toString());
+            resp.setReceiveTime(DateUtil.formatDateTime(voucherUser.getCreateTime()));
+            resp.setUsedTime(voucherUser.getUseTime() == null ? "":DateUtil.formatDateTime(voucherUser.getUseTime()));
+            resp.setExpireTime(DateUtil.formatDateTime(voucherUser.getExpireTime()));
+
+            Integer useStatus = voucherUser.getUseStatus();
+            if(voucherUser.getExpireTime().before(BaseContextHandler.getAccessTime())){
+                useStatus = 2;
+            }
+            resp.setUseStatus(useStatus);
+            resp.setUseStatusStr(this.getuserStatusStr(useStatus));
+            resp.setUserId(voucherUser.getUserId().toString());
+            UserInfoDTO userInfoDTO = userMap.get(voucherUser.getUserId().intValue());
+            resp.setMobile(userInfoDTO == null ? "-":userInfoDTO.getMobile());
+            resp.setHideMobile(userInfoDTO == null ? "-":PhoneUtil.hideBetween(userInfoDTO.getMobile()).toString());
+
+            respList.add(resp);
+        }
+
+        return respList;
+    }
+
+    private String getuserStatusStr(Integer useStatus) {
+        switch (useStatus) {
+            case 0:
+                return "未使用";
+            case 1:
+                return "已使用";
+            case 2:
+                return "已过期";
+            default:
+                return "-";
+        }
     }
 
     //    /**

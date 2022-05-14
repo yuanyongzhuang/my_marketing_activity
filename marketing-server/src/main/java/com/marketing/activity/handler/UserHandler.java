@@ -10,9 +10,9 @@ import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ public class UserHandler {
         return map.get(userId);
     }
 
-    private Map<Integer, UserInfoDTO> getUserMapByUserIds(HashSet<Integer> userIds) {
+    public Map<Integer, UserInfoDTO> getUserMapByUserIds(Set<Integer> userIds) {
         if(CollectionUtil.isEmpty(userIds)){
             return MapUtil.newHashMap();
         }
@@ -45,7 +45,7 @@ public class UserHandler {
         return list.stream().collect(Collectors.toMap(UserInfoDTO::getGroupId, Function.identity(),(v1,v2)->v1));
     }
 
-    public List<UserInfoDTO> getUserListByUserIds(HashSet<Integer> userIds) {
+    public List<UserInfoDTO> getUserListByUserIds(Set<Integer> userIds) {
         if(CollectionUtil.isEmpty(userIds)){
             return Lists.newArrayList();
         }

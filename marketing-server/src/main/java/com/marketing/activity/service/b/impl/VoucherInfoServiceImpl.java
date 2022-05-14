@@ -8,12 +8,16 @@ import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
 import com.marketing.activity.constant.ErrorMsg;
 import com.marketing.activity.domain.entity.VoucherInfo;
+import com.marketing.activity.domain.entity.VoucherUser;
 import com.marketing.activity.domain.param.VoucherInfoPageParam;
 import com.marketing.activity.domain.param.VoucherInfoParam;
+import com.marketing.activity.domain.param.VoucherReceiveDataPageParam;
 import com.marketing.activity.domain.resp.VoucherInfoResp;
+import com.marketing.activity.domain.resp.VoucherReceiveDataResp;
 import com.marketing.activity.domain.resp.VoucherSimpleInfoResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.handler.VoucherHandler;
+import com.marketing.activity.handler.VoucherUserHandler;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherInfoMapper;
 import com.marketing.activity.service.b.VoucherInfoService;
@@ -40,6 +44,8 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
     private VoucherHelper voucherHelper;
     @Resource
     private VoucherHandler voucherHandler;
+    @Resource
+    private VoucherUserHandler voucherUserHandler;
 
 
     @Override
@@ -124,5 +130,22 @@ public class VoucherInfoServiceImpl extends ServiceImpl<VoucherInfoMapper, Vouch
         VoucherInfoResp resp = new VoucherInfoResp();
         BeanUtil.copyProperties(info, resp, false);
         return CommonResult.success(resp);
+    }
+
+    @Override
+    public CommonPage<VoucherReceiveDataResp> voucherReceiveData(VoucherReceiveDataPageParam pageParam) {
+        CommonPage<VoucherReceiveDataResp> commonPage = new CommonPage<>();
+
+        Page<VoucherUser> page = new Page<>(pageParam.getCurrentPage(),pageParam.getPageSize());
+        List<VoucherReceiveDataResp> respList = voucherUserHandler.voucherReceiveData(pageParam);
+
+        if(CollectionUtil.isNotEmpty(respList)){
+            commonPage.setList(respList);
+            commonPage.setPageNum((int)page.getCurrent());
+            commonPage.setPageSize((int)page.getSize());
+            commonPage.setTotalPage((int)page.getPages());
+            commonPage.setTotal(page.getTotal());
+        }
+        return commonPage;
     }
 }

@@ -55,10 +55,4 @@ public class VoucherUserController {
     public CommonResult<Boolean> changeUseStatus(@RequestBody ChangeUseStatusParam changeUseStatusParam){
         return voucherUserService.changeUseStatus(changeUseStatusParam);
     }
-
-    @ApiOperation("修改适用状态")
-    @PostMapping("/changeUseStatus")
-    public CommonResult<Boolean> changUseStatus(@RequestBody ChangeUseStatusParam changeUseStatusParam){
-        return voucherUserService.changeUseStatus(changeUseStatusParam);
-    }
 }
