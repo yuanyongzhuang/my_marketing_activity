@@ -1,12 +1,16 @@
 package com.marketing.activity.service.c.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.marketing.activity.base.CommonPage;
 import com.marketing.activity.base.CommonResult;
+import com.marketing.activity.base.RedisLock;
 import com.marketing.activity.constant.ErrorMsg;
+import com.marketing.activity.constant.RedisKeyConstant;
+import com.marketing.activity.domain.bo.VoucherDataResult;
 import com.marketing.activity.domain.bo.VoucherText;
 import com.marketing.activity.domain.dto.ExamDirectoryInfoDTO;
 import com.marketing.activity.domain.dto.UserInfoDTO;
@@ -17,19 +21,25 @@ import com.marketing.activity.domain.param.ExamGroupPickVoucherParam;
 import com.marketing.activity.domain.param.ReceiveVoucherParam;
 import com.marketing.activity.domain.resp.ExamGroupPickVoucherResp;
 import com.marketing.activity.domain.resp.ExamGroupResp;
+import com.marketing.activity.exception.BaseException;
+import com.marketing.activity.exception.ReceiveVoucherException;
 import com.marketing.activity.handler.*;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.mapper.VoucherActivityInfoMapper;
+import com.marketing.activity.mapper.VoucherUserMapper;
 import com.marketing.activity.service.c.AppVoucherService;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -58,6 +68,10 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     private UserHandler userHandler;
     @Resource
     private VoucherDataBuildHandler voucherDataBuildHandler;
+    @Resource
+    private VoucherUserMapper voucherUserMapper;
+    @Resource
+    private StringRedisTemplate redisTemplate;
 
 
     @Override
@@ -148,6 +162,8 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> receiveVoucher(ReceiveVoucherParam receiveVoucherParam) {
+        long startTime = System.currentTimeMillis();
+
         Assert.notNull(receiveVoucherParam, ErrorMsg.PARAM_IS_NULL);
 
         String voucherCode = receiveVoucherParam.getVoucherCode();
@@ -157,10 +173,51 @@ public class AppVoucherServiceImpl implements AppVoucherService {
         UserInfoDTO userInfoDTO = userHandler.getUserInfo(userId.intValue());
         Assert.notNull(userInfoDTO, ErrorMsg.USER_IS_NOT_EXIST);
 
-        VoucherDataResult voucherDataResult = voucherDataBuildHandler.getVoucherData(voucherCode);
+        // redis锁 0.8 秒
+        RedisLock redisLock = new RedisLock(redisTemplate, RedisKeyConstant.KEY_RECEIVE_VOUCHER+voucherCode,
+                TimeUnit.MILLISECONDS, 800);
+        boolean locked = redisLock.tryLock();
+        log.info("receiveVoucher 获取redis锁 locked[{}]", locked);
+        Assert.isTrue(locked,"现场火爆，请稍后再试");
+
+        try{
+            VoucherDataResult voucherDataResult = voucherDataBuildHandler.getVoucherData(voucherCode);
+            //参数校验
+            String receiveVoucherCheckData = voucherDataResult.receiveVoucherCheckData(Boolean.TRUE);
+            Assert.isNull(receiveVoucherCheckData,receiveVoucherCheckData);
+            //券
+            VoucherInfo voucherInfo = voucherDataResult.getVoucherInfo();
+            //限领
+            Integer eachLimit = voucherInfo.getEachLimit();
+            if(eachLimit > 0){
+                //用户券
+                List<VoucherUser> voucherUserList = voucherUserHandler.getUserVoucherList(userId,voucherInfo.getId());
+                Assert.isFalse((CollUtil.isNotEmpty(voucherUserList) && voucherUserList.size() >= eachLimit),
+                        "已达领取上限，限领"+eachLimit+"张");
+            }
+            VoucherUser insertInfo = new VoucherUser();
+            insertInfo.setVoucherId(voucherInfo.getId());
+            insertInfo.setVoucherCode(voucherInfo.getInnerCode());
+            insertInfo.setUserId(receiveVoucherParam.getUserId());
+            //过期时间
+            Date expireTime = voucherHandler.getExpireTime(voucherInfo);
+            insertInfo.setExpireTime(expireTime);
+            //保存用户券
+            voucherUserMapper.insert(insertInfo);
+
+            //减库存
+            int updateResult = voucherHelper.updateStock(voucherInfo.getId(), voucherInfo.getTotalNum() - 1);
+            if(updateResult < 1){
+                throw new ReceiveVoucherException("扣减库存失败");
+            }
+        }catch (Exception e){
+            throw new BaseException(e.getMessage());
+        }finally {
+            redisLock.unlock();
+            log.info("receiveVoucher end {}ms", DateUtil.spendMs(System.currentTimeMillis() - startTime));
+        }
 
 
-
-        return null;
+        return CommonResult.success(Boolean.TRUE);
     }
 }

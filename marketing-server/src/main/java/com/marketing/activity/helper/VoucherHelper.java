@@ -124,4 +124,23 @@ public class VoucherHelper {
 
         return voucherInfoMapper.selectList(queryWrapper);
     }
+
+    public VoucherInfo getVoucherInfoByCode(String voucherCode) {
+        LambdaQueryWrapper<VoucherInfo> queryWrapper = Wrappers.lambdaQuery(VoucherInfo.class);
+        queryWrapper.eq(VoucherInfo::getDeleteStatus, EnabledStatusEnum.NO.getValue());
+        queryWrapper.eq(VoucherInfo::getEnabledStatus, EnabledStatusEnum.YES.getValue());
+        queryWrapper.eq(VoucherInfo::getInnerCode, voucherCode);
+
+        return voucherInfoMapper.selectOne(queryWrapper);
+    }
+
+    public int updateStock(Long voucherId, int num) {
+        VoucherInfo updateInfo = new VoucherInfo();
+        updateInfo.setTotalNum(num);
+        LambdaQueryWrapper<VoucherInfo> queryWrapper = Wrappers.lambdaQuery(VoucherInfo.class);
+        queryWrapper.eq(VoucherInfo::getId,voucherId);
+        queryWrapper.gt(VoucherInfo::getTotalNum, 0);
+
+        return voucherInfoMapper.update(updateInfo, queryWrapper);
+    }
 }

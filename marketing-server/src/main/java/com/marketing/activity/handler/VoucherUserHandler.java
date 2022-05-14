@@ -4,6 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.marketing.activity.BaseContextHandler;
@@ -137,6 +140,24 @@ public class VoucherUserHandler {
             return Maps.newHashMap();
         }
         return list.stream().collect(Collectors.groupingBy(VoucherUser::getVoucherId));
+    }
+
+    private List<VoucherUser> getUserVoucherList(Long userId, Long voucherId, String code){
+        LambdaQueryWrapper<VoucherUser> queryWrapper = Wrappers.lambdaQuery(VoucherUser.class);
+        queryWrapper.eq(VoucherUser::getDeleteStatus, EnabledStatusEnum.NO.getValue());
+        queryWrapper.eq(VoucherUser::getUserId, userId);
+        if(voucherId != null){
+            queryWrapper.eq(VoucherUser::getUserId, voucherId);
+        }
+        if(StringUtils.isNotEmpty(code)){
+            queryWrapper.eq(VoucherUser::getVoucherCode, code);
+        }
+
+        return voucherUserMapper.selectList(queryWrapper);
+    }
+
+    public List<VoucherUser> getUserVoucherList(Long userId, Long voucherId) {
+        return this.getUserVoucherList(userId, voucherId, null);
     }
 
     //    /**

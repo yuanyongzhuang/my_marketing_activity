@@ -162,4 +162,15 @@ public class VoucherHandler {
         return resultInfo;
     }
 
+    public Date getExpireTime(VoucherInfo voucherInfo) {
+        //可用时间分类 0end 1x天可用 2start->end
+        Integer useTimeType = voucherInfo.getUseTimeType();
+        if(useTimeType == 0){
+            return voucherInfo.getUseTimeEnd();
+        }
+        if(useTimeType == 1){
+            return DateUtil.offsetDay(new Date(), voucherInfo.getUseTimePlusDay());
+        }
+        return null;
+    }
 }
