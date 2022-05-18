@@ -15,7 +15,7 @@ import com.marketing.activity.domain.resp.VoucherActivityInfoResp;
 import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.handler.VoucherActivityHandler;
 import com.marketing.activity.helper.VoucherActivityHelper;
-import com.marketing.activity.mapper.VoucherActivityInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherActivityInfoMapper;
 import com.marketing.activity.service.b.VoucherActivityInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

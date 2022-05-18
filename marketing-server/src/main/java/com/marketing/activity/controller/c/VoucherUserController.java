@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 用户优惠券 前端控制器
@@ -32,11 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/c/voucher-user")
 public class VoucherUserController {
 
-    private final VoucherUserService voucherUserService;
+    @Resource
+    private VoucherUserService voucherUserService;
 
-    public VoucherUserController(VoucherUserService voucherUserService){
-        this.voucherUserService = voucherUserService;
-    }
+//    public VoucherUserController(VoucherUserService voucherUserService){
+//        this.voucherUserService = voucherUserService;
+//    }
 
     @ApiOperation("用户优惠券列表")
     @PostMapping("/getVoucherList")

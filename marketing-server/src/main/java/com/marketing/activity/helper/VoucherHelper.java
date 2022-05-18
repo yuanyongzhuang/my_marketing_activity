@@ -3,16 +3,13 @@ package com.marketing.activity.helper;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.marketing.activity.BaseContextHandler;
 import com.marketing.activity.constant.VoucherConstant;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.domain.param.VoucherInfoPageParam;
-import com.marketing.activity.domain.param.VoucherInfoParam;
 import com.marketing.activity.enums.EnabledStatusEnum;
-import com.marketing.activity.mapper.VoucherInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherInfoMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

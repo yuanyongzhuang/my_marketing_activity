@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.marketing.activity.domain.entity.VoucherUser;
 import com.marketing.activity.enums.EnabledStatusEnum;
-import com.marketing.activity.mapper.VoucherUserMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherUserMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

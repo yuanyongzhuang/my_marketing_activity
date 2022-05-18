@@ -25,12 +25,12 @@ import com.marketing.activity.exception.BaseException;
 import com.marketing.activity.exception.ReceiveVoucherException;
 import com.marketing.activity.handler.*;
 import com.marketing.activity.helper.VoucherHelper;
-import com.marketing.activity.mapper.VoucherActivityInfoMapper;
-import com.marketing.activity.mapper.VoucherUserMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherActivityInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherUserMapper;
 import com.marketing.activity.service.c.AppVoucherService;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +70,7 @@ public class AppVoucherServiceImpl implements AppVoucherService {
     private VoucherDataBuildHandler voucherDataBuildHandler;
     @Resource
     private VoucherUserMapper voucherUserMapper;
-    @Resource
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
 

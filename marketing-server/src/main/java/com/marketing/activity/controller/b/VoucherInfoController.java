@@ -14,6 +14,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 券 前端控制器
@@ -29,11 +31,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/b/voucher-info")
 public class VoucherInfoController {
 
-    private final VoucherInfoService voucherInfoService;
+    @Resource
+    private VoucherInfoService voucherInfoService;
 
-    public VoucherInfoController(VoucherInfoService voucherInfoService){
-        this.voucherInfoService = voucherInfoService;
-    }
+//    public VoucherInfoController(VoucherInfoService voucherInfoService){
+//        this.voucherInfoService = voucherInfoService;
+//    }
 
     @ApiOperation("添加")
     @PostMapping("/add")

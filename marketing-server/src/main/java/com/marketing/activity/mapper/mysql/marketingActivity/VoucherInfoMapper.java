@@ -1,4 +1,4 @@
-package com.marketing.activity.mapper;
+package com.marketing.activity.mapper.mysql.marketingActivity;
 
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

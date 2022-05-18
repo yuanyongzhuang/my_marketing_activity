@@ -4,8 +4,8 @@ import com.marketing.activity.domain.bo.VoucherDataResult;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;
 import com.marketing.activity.domain.entity.VoucherInfo;
 import com.marketing.activity.helper.VoucherHelper;
-import com.marketing.activity.mapper.VoucherActivityInfoMapper;
-import com.marketing.activity.mapper.VoucherInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherActivityInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherInfoMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

@@ -19,7 +19,7 @@ import com.marketing.activity.enums.EnabledStatusEnum;
 import com.marketing.activity.handler.VoucherHandler;
 import com.marketing.activity.handler.VoucherUserHandler;
 import com.marketing.activity.helper.VoucherHelper;
-import com.marketing.activity.mapper.VoucherInfoMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherInfoMapper;
 import com.marketing.activity.service.b.VoucherInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;

@@ -11,6 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 券活动 前端控制器
@@ -25,11 +27,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/b/voucher-activity-info")
 public class VoucherActivityInfoController {
 
-    private final VoucherActivityInfoService voucherActivityService;
+    @Resource
+    private VoucherActivityInfoService voucherActivityService;
 
-    public VoucherActivityInfoController(VoucherActivityInfoService voucherActivityService){
-        this.voucherActivityService = voucherActivityService;
-    }
+//    public VoucherActivityInfoController(VoucherActivityInfoService voucherActivityService){
+//        this.voucherActivityService = voucherActivityService;
+//    }
 
     @ApiOperation("添加")
     @PostMapping("/add")

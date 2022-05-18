@@ -38,6 +38,7 @@ public class MySqlMarketingActivityDataSourcesConfig {
     public DataSource mysqlMarketingActivityDataSource(){
         return new HikariDataSource();
     }
+
     @Primary
     @Bean(name = "mysqlMarketingActivitySqlSessionFactory")
     public SqlSessionFactory mysqlMarketingActivitySqlsessionFactory(@Qualifier("mysqlMarketingActivityDatasource") DataSource dataSource) throws Exception {

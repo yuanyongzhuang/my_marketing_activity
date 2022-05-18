@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -31,9 +32,10 @@ import java.util.List;
 @RequestMapping("/c/voucher")
 public class VoucherController {
 
-    private final AppVoucherService appVoucherService;
+    @Resource
+    private AppVoucherService appVoucherService;
 
-    public VoucherController(AppVoucherService appVoucherService){ this.appVoucherService = appVoucherService; }
+//    public VoucherController(AppVoucherService appVoucherService){ this.appVoucherService = appVoucherService; }
 
     @ApiOperation(value = "优惠券分类")
     @GetMapping("/getExamGroup")

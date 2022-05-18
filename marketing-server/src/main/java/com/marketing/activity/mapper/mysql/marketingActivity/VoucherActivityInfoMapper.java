@@ -1,4 +1,4 @@
-package com.marketing.activity.mapper;
+package com.marketing.activity.mapper.mysql.marketingActivity;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.marketing.activity.domain.entity.VoucherActivityInfo;

@@ -10,7 +10,7 @@ import com.marketing.activity.domain.param.OrderConfirmCheckVoucherParam;
 import com.marketing.activity.domain.resp.OrderConfirmCheckVoucherResp;
 import com.marketing.activity.handler.ProductHandler;
 import com.marketing.activity.handler.VoucherUserHandler;
-import com.marketing.activity.mapper.VoucherUserMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherUserMapper;
 import com.marketing.activity.service.b.VoucherInfoService;
 import com.marketing.activity.service.c.VoucherOrderService;
 import lombok.extern.slf4j.Slf4j;

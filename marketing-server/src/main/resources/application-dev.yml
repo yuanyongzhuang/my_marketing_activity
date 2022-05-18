@@ -1,10 +1,16 @@
 spring:
 
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    password: myredis
+#    port: 6379
+#    timeout: 10000
   redis:
-    database: 0
-    host: 127.0.0.1
-    password: myredis
-    port: 6379
+    database: 2
+    host: 47.99.60.88
+    password: w7thz@lqxASeKCQ0flnXP2ekQ0e6diUZ^3M3GLlhXdpeJRTOhJ*^NICq4f3!J&x9qA&pq4FRv#PcPEWn&b7GUxPkxdpg!xWWXdaN6uU9X8n2xACqE6iqbyw7pzLoF1g9&O&eK5MM18v7IG7Uw!zgv*qvS74HA*2HtVy*Zvav4w*0ixIbHRupGa$$Sygw0PIBKu6I5fI@af@YPbn*fEVlsbP09TGYiCrhwdOv6F2D$o7ReqXy!4bbSy6A5j&dctTLJAtQ0p#Tq5bASJSpEU*7SwpQWBBaYR2tajC39E
+    port: 36379
     timeout: 10000
 
 # 数据源配置

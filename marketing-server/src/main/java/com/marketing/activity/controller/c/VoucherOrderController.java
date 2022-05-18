@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *
@@ -26,11 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/c/voucher-order")
 public class VoucherOrderController {
 
-    private final VoucherOrderService voucherOrderService;
+    @Resource
+    private VoucherOrderService voucherOrderService;
 
-    public VoucherOrderController(VoucherOrderService voucherOrderService){
-        this.voucherOrderService = voucherOrderService;
-    }
+//    public VoucherOrderController(VoucherOrderService voucherOrderService){
+//        this.voucherOrderService = voucherOrderService;
+//    }
 
     @ApiOperation("订单二次校验")
     @PostMapping("/confirm")

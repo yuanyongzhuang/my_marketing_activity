@@ -24,7 +24,7 @@ import com.marketing.activity.handler.VoucherHandler;
 import com.marketing.activity.handler.VoucherUserHandler;
 import com.marketing.activity.helper.VoucherHelper;
 import com.marketing.activity.helper.VoucherUserHelper;
-import com.marketing.activity.mapper.VoucherUserMapper;
+import com.marketing.activity.mapper.mysql.marketingActivity.VoucherUserMapper;
 import com.marketing.activity.service.VoucherUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
